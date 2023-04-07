@@ -15,7 +15,7 @@ const Selector = () => {
   console.log(setCategory);
 
   const navigat=(value:string)=>{
-    navigate(`/shope/${value}`)
+    navigate(`/product/${value}`)
   }
 
   return (

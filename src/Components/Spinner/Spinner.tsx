@@ -1,6 +1,12 @@
 import ClipLoader from "react-spinners/ClipLoader";
-import { Override } from "../Constant";
-import { SpinnerProps } from "../Constant";
+import { CSSProperties } from "react";
+import { SpinnerProps } from "../Interfaces";
+
+const Override: CSSProperties = {
+  display: "block",
+  margin: "0 auto",
+  borderColor: "black",
+};
 
 const Spinner = ({ time }: SpinnerProps) => {
   return (

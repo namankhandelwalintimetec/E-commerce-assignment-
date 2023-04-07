@@ -1,11 +1,8 @@
-const initialState:string="";
+import { serchTextActionType } from "../../Components/Interfaces";
 
-interface ActionType {
-  type: string;
-  payload: string;
-}
+const initialState: string = "";
 
-const SerchText = (state = initialState, action: ActionType) => {
+const serchText = (state = initialState, action: serchTextActionType) => {
   switch (action.type) {
     case "SetText":
       return action.payload;
@@ -14,4 +11,4 @@ const SerchText = (state = initialState, action: ActionType) => {
   }
 };
 
-export default SerchText;
+export default serchText;

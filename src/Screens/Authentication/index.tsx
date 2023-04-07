@@ -1,40 +1,38 @@
-import React, { useState } from "react";
-import SingUp from "./Components/SingUp";
-import Login from "./Components/Login";
+import { useState } from "react";
+import SingUp from "../../Components/SingUp/SingUp";
+import Login from "../../Components/LogIn/Login";
 import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { LogIn } from "../../Redux/Action/Action";
+import { useDispatch } from "react-redux";
 import { setEmail } from "../../Redux/Action/Action";
-import { auth } from "../../Services/Firebase/Firebaseconfiguration";
+import { auth } from "../../Config/Firebaseconfiguration";
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
 } from "firebase/auth";
 
 const Authentication = () => {
-  const userEmail:string = useSelector((state: any) => state.userEmail);
   const [errorMessage, setErrorMessage] = useState("");
-  const [toggle, setToggle] = useState("Sing up");
+  const [toggleButton, setToggleButton] = useState("Sing up");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [userInfo, setUserInfo] = useState({
     name: "",
     email: "",
-    passward: "",
+    password: "",
   });
-  
-  const setUser = (name: string, email: string, passward: string) => {
+
+  const setUserCredential = (name: string, email: string, password: string) => {
     setUserInfo((prev) => ({
       ...prev,
       name: name,
       email: email,
-      passward: passward,
+      password: password,
     }));
   };
 
-  const handelSignIn = async () => {
-    if (!userInfo.name || !userInfo.email || !userInfo.passward) {
+  const userSignIn = async () => {
+    if (!userInfo.name || !userInfo.email || !userInfo.password) {
       setErrorMessage("Fill all fields");
       return;
     }
@@ -43,18 +41,16 @@ const Authentication = () => {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         userInfo.email,
-        userInfo.passward
+        userInfo.password
       );
-      const user = userCredential.user;
-      //console.log(user);
-      changeoption();
+      changeOption();
     } catch (error) {
-      console.log(error);
+      setErrorMessage("write valid inputs");
     }
   };
 
-  const handleLogIn = async () => {
-    if (!userInfo.email || !userInfo.passward) {
+  const userLogIn = async () => {
+    if (!userInfo.email || !userInfo.password) {
       setErrorMessage("Fill all fields");
       return;
     }
@@ -63,12 +59,10 @@ const Authentication = () => {
       const userCredential = await signInWithEmailAndPassword(
         auth,
         userInfo.email,
-        userInfo.passward
+        userInfo.password
       );
-      const user = userCredential.user;
-      //console.log(user.email);
       localStorage.setItem("email", userInfo.email);
-      localStorage.setItem("Password", userInfo.passward);
+      localStorage.setItem("Password", userInfo.password);
       dispatch(setEmail(userInfo.email));
       navigate("/");
     } catch (error) {
@@ -76,36 +70,35 @@ const Authentication = () => {
     }
   };
 
-
-  const changeoption = () => {
-    if (toggle === "Sing up") setToggle("log in");
-    else if (toggle === "log in") setToggle("Sing up");
-    console.log(localStorage.getItem("email"));
+  const changeOption = () => {
+    if (toggleButton === "Sing up") setToggleButton("log in");
+    else if (toggleButton === "log in") setToggleButton("Sing up");
   };
 
   return (
     <>
       <div className="main-div">
         <div className="main">
-          <div className={toggle === "Sing up" ? "toggle" : "togglenot"}>
+          <div className={toggleButton === "Sing up" ? "toggle" : "togglenot"}>
             <SingUp
-              setUser={setUser}
+              setUserCredential={setUserCredential}
               error={errorMessage}
-              handelAuthentication={handelSignIn}
-              toggle={toggle}
+              handelAuthentication={userSignIn}
+              toggle={toggleButton}
             />
           </div>
-          <div className={toggle === "log in" ? "toggle" : "togglenot"}>
+          <div className={toggleButton === "log in" ? "toggle" : "togglenot"}>
             <Login
-              setUser={setUser}
-              toggle={toggle}
-              handleLogIn={handleLogIn}
+              data-testid="Login"
+              setUserCredential={setUserCredential}
+              toggle={toggleButton}
+              handleLogIn={userLogIn}
               errorMessage={errorMessage}
             />
           </div>
           <div className="circular">
-            <p onClick={changeoption} className="toggle-text">
-              {toggle === "log in" ? "Sign up" : "Log In"}
+            <p onClick={changeOption} className="toggle-text">
+              {toggleButton === "log in" ? "Sign up" : "Log In"}
             </p>
           </div>
         </div>

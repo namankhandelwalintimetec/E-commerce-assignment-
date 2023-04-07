@@ -1,4 +1,4 @@
-import { CSSProperties } from "react";
+
 export const LinkAddresh = [
   { to: "/", item: "Home" },
   {
@@ -7,12 +7,25 @@ export const LinkAddresh = [
   },
 ];
 
-export const Override: CSSProperties = {
-  display: "block",
-  margin: "0 auto",
-  borderColor: "black",
-};
 
-export interface SpinnerProps {
-  time: boolean;
-}
+
+
+
+export const categoryList = [
+  {
+    text: "All",
+    type: "/",
+  },
+  {
+    text: "Men",
+    type: "men",
+  },
+  {
+    text: "Women",
+    type: "Women",
+  },
+  {
+    text: "Electronic",
+    type: "electronic",
+  },
+];

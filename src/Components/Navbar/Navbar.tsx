@@ -1,161 +1,160 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ImCross } from "react-icons/im";
 import { NavStyle } from "./NavbarStyle";
-import { LinkAddresh } from "../Constant";
 import { FaSearch } from "react-icons/fa";
 import { BiLogInCircle } from "react-icons/bi";
-import { auth } from "../../Services/Firebase/Firebaseconfiguration";
+import { BiUserCircle } from "react-icons/bi";
+import { auth } from "../../Config/Firebaseconfiguration";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux/es/exports";
-import { LogOut, setText } from "../../Redux/Action/Action";
-import { collection, getDocs, doc, setDoc } from "@firebase/firestore";
-import { db } from "../../Services/Firebase/Firebaseconfiguration";
-import { infoDataType } from "../../Screens/Home/index";
-import { addDoc } from "@firebase/firestore";
-import userWishlist from '../../Redux/Reducer/userWishlist';
-import { Item } from '../../Screens/Authentication/Components/style';
+import { setProductType, setText } from "../../Redux/Action/Action";
 import { propType } from "../../Redux/Reducer/UserCart";
+import {
+  uplodeCartDataValue,
+  uplodeWishListDataValue,
+} from "../../Services/ServicesLayer";
+import { StateTypeNavbar } from "./NavbarInterface";
 
 const Navbar = () => {
-  const [mobileNavbar, setMobileNavbar] = useState(false);
-  const [cartDetail, setcartDetail] = useState<infoDataType[]>([]);
+  const navigate = useNavigate();
   const [serchItem, setSetchItem] = useState("");
-  const userState = useSelector((state: any) => state.changeState);
-  const userCard: propType[] = useSelector((state: any) => state.userCart);
-  const userWishlist = useSelector((state:any)=> state.userWishlist);
-  const userEmail = useSelector(
-    (state: any) => state.userEmail
+  const userCard = useSelector((state: StateTypeNavbar) => state.userCart);
+  const userWishlist = useSelector(
+    (state: StateTypeNavbar) => state.userWishlist
   );
-  const SerchText = useSelector((state: any) => state.SerchText);
-  const dispatch = useDispatch();
+  const userEmail = useSelector((state: StateTypeNavbar) => state.userEmail);
   const history = useNavigate();
-  
+  const dispatch = useDispatch();
 
-  // const fetchData = async () => {
-  //   setcartDetail([]);
-  //   try {
-  //     const moviesCollectionRef = collection(
-  //       doc(db, "Cart", `${localStorage.getItem('email')}`),
-  //       "CartProduct"
-  //     );
-  //     const querySnapshot = await getDocs(moviesCollectionRef);
-  //     querySnapshot.forEach((doc) => {
-  //       const data = doc.data() as infoDataType;
-  //       setcartDetail((arr) => [...arr, data]);
-  //       console.warn(data);
-  //     });
-  //   } catch (error) {
-  //     console.log(error + "----");
-  //   }
-  // };
+  const navigateCate = (value: string) => {
+    navigate(`/product/${value}`);
+  };
 
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
+  const uplodeCartData = async (item: propType) => {
+    uplodeCartDataValue(item);
+  };
 
-  const fetch =async (item: propType) => {
-    const user = collection(db, "Cart");
-    const usersub = doc(db, "Cart", `${userEmail}`);
-    const postco=collection(usersub,"CartProduct");
-    const newDoc = doc(postco);
-    await setDoc(newDoc, {
-      id: item.idValue,
-      Name: item.Name,
-      image: item.image,
-      rating: item.rating,
-      price: item.price,
+  const uplodeWishListData = async (item: propType) => {
+    uplodeWishListDataValue(item);
+  };
+
+  const uplodeData = () => {
+    userCard.map((item) => {
+      uplodeCartData(item);
+    });
+    userWishlist.map((item: propType) => {
+      uplodeWishListData(item);
     });
   };
 
-  const pushWishList=async(item:infoDataType)=>{
-    const user = collection(db, "Cart");
-    const usersub = doc(db, "Cart", `${localStorage.getItem("email")}`);
-    const postco = collection(usersub, "wishList");
-    const newDoc = doc(postco);
-    await setDoc(newDoc, {
-      id: item.id,
-      Name: item.Name,
-      image: item.image,
-      rating: item.rating,
-      price: item.price,
-    });
-
-  }
+  const eraseLocalStorage = () => {
+    localStorage.removeItem("email");
+    localStorage.removeItem("passward");
+  };
 
   const handleLogout = async () => {
-    userCard.map((item) => {
-      // console.log(item);
-      fetch(item);
-    });
-
-    // userWishlist.map((item:infoDataType)=>{
-    //   pushWishList(item);
-    // })
-
+    uplodeData();
     auth.signOut().then(() => {
       history("/login");
     });
-    dispatch(LogOut());
+    eraseLocalStorage();
   };
 
-  console.log(SerchText);
-
-  const serchTextvalue = () => {
+  const setSerchTextvalue = () => {
     dispatch(setText(serchItem));
-    setSetchItem("");
   };
 
   return (
     <>
       <NavStyle>
         <Link to="/" className="logo">
-          Shopfy
+          Sopshy
         </Link>
+        <ul className="list-bar">
+          <li className="list-inside">
+            <p
+              onClick={() => {
+                dispatch(setProductType(""));
+                navigate("/");
+              }}
+            >
+              All
+            </p>
+          </li>
+          <li
+            className="li"
+            onClick={() => {
+              dispatch(setProductType("men"));
+              navigateCate("men");
+            }}
+          >
+            Men
+          </li>
+          <li
+            className="li"
+            onClick={() => {
+              dispatch(setProductType("female"));
+              navigateCate("female");
+            }}
+          >
+            Women
+          </li>
+          <li
+            className="li"
+            onClick={() => {
+              dispatch(setProductType("electronic"));
+              navigateCate("electronic");
+            }}
+          >
+            Electronic
+          </li>
+        </ul>
         <input
           className="search"
-          placeholder="Search"
+          placeholder="Search Your Products"
           onChange={(e) => {
             setSetchItem(e.target.value);
           }}
           value={serchItem}
         />
-        <p className="serch" onClick={serchTextvalue}>
+        <p className="serch-icon" onClick={setSerchTextvalue}>
           <FaSearch />
         </p>
-        <ul
-          className={mobileNavbar ? "nav-links-mobile-bar" : "nav-linkss"}
-          onClick={() => setMobileNavbar(false)}
-        >
-          {LinkAddresh.map((item) => (
-            <Link to={item.to}>
-              <li className="li">{item.item}</li>
-            </Link>
-          ))}
-          <li>
-            <Link to="/wishlist">
-              <span className="material-symbols-outlined">favorite</span>
+
+        <ul className="profile-list">
+          <li className="profile-inside">
+            <Link to="/login" onClick={handleLogout}>
+              <BiLogInCircle
+                size={"1.3em"}
+                className={
+                  localStorage.getItem("email") ? "hide" : "show color"
+                }
+              />
+              <BiUserCircle
+                size={"1.3em"}
+                className={
+                  localStorage.getItem("email") ? "show color" : "hide "
+                }
+              />
             </Link>
           </li>
-          <li>
-            <Link to="/Cart">
-              <span className="material-symbols-outlined">shopping_cart</span>
+          <li className="profile-inside">
+            <Link to="/wishlist">
+              <span className="material-symbols-outlined color">favorite</span>
             </Link>
           </li>
 
-          <li>
-            <Link to="/login" onClick={handleLogout}>
-              <BiLogInCircle size={"1.3em"} />
+          <li className="profile-inside">
+            <Link to="/Cart">
+              <span className="material-symbols-outlined color">
+                shopping_cart
+              </span>
+              <span className="number">
+                {userCard.length ? userCard.length : ""}
+              </span>
             </Link>
           </li>
         </ul>
-
-        <button
-          className="mobile-menu-icon"
-          onClick={() => setMobileNavbar(!mobileNavbar)}
-        >
-          <ImCross />
-        </button>
       </NavStyle>
     </>
   );

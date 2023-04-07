@@ -1,8 +1,9 @@
-import { infoDataType } from "../../Screens/Home";
+import { cartDataActionType } from "../../Components/Interfaces";
+import { infoDataType } from "../../Components/Interfaces";
 
-const initialState = [
+const initialState :infoDataType[] = [
   {
-    id:"",
+    id: "",
     Name: "",
     cate: "",
     dec: "",
@@ -12,12 +13,7 @@ const initialState = [
   },
 ];
 
-interface ActionType {
-  type: string;
-  payload: infoDataType[];
-}
-
-const CardData = (state = initialState, action: ActionType) => {
+const cardData = (state = initialState, action: cartDataActionType) => {
   switch (action.type) {
     case "setcarddata":
       return action.payload;
@@ -26,4 +22,4 @@ const CardData = (state = initialState, action: ActionType) => {
   }
 };
 
-export default CardData;
+export default cardData;

@@ -1,7 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 export const GlobalStyle = createGlobalStyle`
 
-
 .main-div{
   margin: 0;
   color: #000;
@@ -101,7 +100,7 @@ export const GlobalStyle = createGlobalStyle`
   margin-left:25%;
   justify-content: center;
   color: #fff;
-  background: #573b8a;
+  background: #3392F3;
   font-size: 1em;
   font-weight: bold;
   margin-top: 20px;
@@ -139,14 +138,12 @@ export const GlobalStyle = createGlobalStyle`
   list-style: none;
  } 
  .product-card1{
+  text-align: justify right;
   display: grid;
-   grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(auto-fill, 400px);
+  height: auto;
+  list-style: none;
  }
- .spinner-tag{
-  item-align:center;
-  margin-left:50%;
-  margin-top: 5%
- }
+ 
  
 `;

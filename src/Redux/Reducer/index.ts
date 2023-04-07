@@ -1,12 +1,12 @@
-import changeState from "./userState";
 import { combineReducers } from "@reduxjs/toolkit";
-import userEmail from "./userEmail";
+import userEmail from "./UserEmail";
 import SerchText from "./SerchText";
-import setCategory from './setCate';
+import setCategory from './SetCate';
 import CardData from './CartData';
 import SingleProductDetail from './SingleProductDetail';
 import userCart from './UserCart';
-import userWishlist from "./userWishlist";
+import userWishlist from "./UserWishlistReducer";
+import CardValue from './CartValue';
 
-const rootReducer = combineReducers({userEmail, SerchText, setCategory, CardData, SingleProductDetail, userCart, userWishlist });
+const rootReducer = combineReducers({ userEmail, SerchText, setCategory, CardData, SingleProductDetail, userCart, userWishlist, CardValue });
 export default rootReducer;

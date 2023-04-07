@@ -1,12 +1,8 @@
-import { infoDataType } from "../../Screens/Home";
-
-interface ActionType {
-  type: string;
-  payload: infoDataType;
-}
+import { singleProductDataActionType } from "../../Components/Interfaces";
+import { infoDataType } from "../../Screens/Home/InterfaceHome";
 
 const initialState: infoDataType = {
-  id: "123",
+  id: "",
   Name: "",
   cate: "",
   dec: "",
@@ -15,7 +11,7 @@ const initialState: infoDataType = {
   rating: "",
 };
 
-const SingleProductDetail = (state = initialState, action: ActionType) => {
+const singleProductDetail = (state = initialState, action: singleProductDataActionType) => {
   switch (action.type) {
     case "setcart":
       return action.payload;
@@ -24,4 +20,4 @@ const SingleProductDetail = (state = initialState, action: ActionType) => {
   }
 };
 
-export default SingleProductDetail;
+export default singleProductDetail;

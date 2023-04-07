@@ -4,16 +4,15 @@ interface propsType {
   type: string;
   placeHolder: string;
   name: string;
-//   value: string;
   value: {
     email: string;
-    passward: string;
+    password: string;
   };
   onChange: (
     value: React.SetStateAction<{
 	  name:string;
       email: string;
-      passward: string;
+      password: string;
     }>
   ) => void;
 }

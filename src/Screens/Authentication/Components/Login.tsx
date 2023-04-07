@@ -33,7 +33,6 @@ const Login = ({ toggle, errorMessage, handleLogIn, setUser }: propsType) => {
   ];
   return (
     <>
-      <>
         <div className="signup">
           <form
             onSubmit={(event) => {
@@ -69,7 +68,6 @@ const Login = ({ toggle, errorMessage, handleLogIn, setUser }: propsType) => {
             </button>
           </form>
         </div>
-      </>
     </>
   );
 };

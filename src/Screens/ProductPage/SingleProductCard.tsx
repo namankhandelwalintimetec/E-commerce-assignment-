@@ -1,119 +1,154 @@
-import Navbar from "../../Components/Navbar/Navbar";
 import { ProductStyle } from "./ProductPageStyle";
 import { useSelector } from "react-redux";
-import { useParams } from 'react-router-dom';
-import { addDoc ,collection,doc,getDocs } from "@firebase/firestore";
-import { db } from "../../Services/Firebase/Firebaseconfiguration";
+import { useParams } from "react-router-dom";
 import { infoDataType } from "../Home";
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { SetUserCart, setSingleProductData } from "../../Redux/Action/Action";
-import userCart from '../../Redux/Reducer/UserCart';
-import { SetWishlist } from "../../Redux/Action/Action";
-import {useCallback} from 'react';
+import { cartUpdate } from "../../Redux/Action/Action";
+import { setWishlist } from "../../Redux/Action/Action";
+import { useCallback } from "react";
+import { increseCartValue } from "../../Redux/Action/Action";
+import Notification from "../../Components/NotificationPopUp";
+import Carousel from "react-bootstrap/Carousel";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { useNavigate } from "react-router-dom";
 
-interface propsType{
-	Name:string;
-	image:string;
-	rating:string;
-	desc:string;
-	price:string;
+interface productDescriptioType {
+  Name: string;
+  image: string;
+  rating: string;
+  desc: string;
+  price: string;
 }
 
-const SingleProductCard=({Name,image,rating,desc,price}:propsType)=>{
+const SingleProductCard = ({
+  Name,
+  image,
+  rating,
+  desc,
+  price,
+}: productDescriptioType) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [already, setalready] = useState(false);
-	const {id}=useParams()
-	const productdata:any = useSelector((state: any) => state.CardData);
+  const [popUp, setPopUp] = useState({
+    title: "success",
+    message: "Added in WishList",
+    type: "success",
+    class: "hide",
+  });
+  const [addWishList, setAddWishList] = useState(false);
+  const { id } = useParams();
+  const productdata = useSelector((state: any) => state.CardData);
   const userdata = useSelector((state: any) => state.SingleProductDetail);
-  const userCart = useSelector((state:any)=>state.userCart);
-
-  const fetchData = async () => {
-    try {
-    const moviesCollectionRef = collection(
-      doc(db, "Cart", "naman@GrMail.com"),
-      "CartProduct"
-    );
-    const querySnapshot = await getDocs(moviesCollectionRef);
-    querySnapshot.forEach((doc) => {
-      const data = doc.data() as infoDataType;
-       if(data.id===id)
-       {
-        setalready(true);
-       }
-    });
-  } catch (error) {
-    console.log(error+"----");
-  }
-};
-  // console.log(already);
-
+  const userWishlist: infoDataType[] = useSelector(
+    (state: any) => state.userWishlist
+  );
+  const cartValue = useSelector((state: any) => state.CardValue);
+  const userCart = useSelector((state: any) => state.userCart);
 
   useEffect(() => {
-   console.log(userCart)
-  }, [userCart])
-  
+    const index = userWishlist.findIndex(
+      (product) => product.id == String(Number(id))
+    );
+    console.log(index);
+    if (index === -1) {
+      setAddWishList(true);
+    }
+  }, [userCart]);
 
-  const saveInCart = useCallback<React.MouseEventHandler<HTMLButtonElement>>(() => {
-    const qua=1;
-    const idValue:string=productdata[Number(id)].id;
-    const cate=productdata[Number(id)].cate;
-  dispatch(SetUserCart({ idValue ,Name, image, rating, desc, price ,qua,cate}));
-  // console.log(userCart);
-}, [dispatch, id, productdata, userdata, userCart]);
+   const setPopUpBoxProperty = (
+    title: string,
+    message: string,
+    type: string,
+    classValue: string
+  ) => {
+    setPopUp({
+      title: title,
+      message: message,
+      type: type,
+      class: classValue,
+    });
+  };
 
-  // const saveInCart=async()=>{
-  //   console.log(userdata);
-    
-  //   dispatch(SetUserCart(productdata[Number(id)]));
-  //   console.log(userCart);
+  const showPopUp = (
+    title: string,
+    message: string,
+    type: string,
+    classValue: string
+  ) => {
+    setPopUpBoxProperty(title, message, type, classValue);
+    setTimeout(() => {
+      setPopUpBoxProperty("success", "Added in WishList", "success", "hide");
+    }, 1000);
+  };
 
+  const saveInCart = useCallback<
+    React.MouseEventHandler<HTMLButtonElement>
+  >(() => {
+    if (localStorage.getItem("email") != null) {
+      const qua = "1";
+      const idValue: string = productdata[Number(id)].id;
+      const cate = productdata[Number(id)].cate;
+      dispatch(
+        cartUpdate({ idValue, Name, image, rating, desc, price, qua, cate })
+      );
+      dispatch(increseCartValue(cartValue + Number(price)));
+      showPopUp("success", "Added to Card", "success", "show");
+    } else {
+      showPopUp("warning", "First Log in", "warning", "show");
+    }
+  }, [dispatch, id, productdata, userdata, userCart]);
 
+  const saveInWishlist = useCallback<
+    React.MouseEventHandler<HTMLButtonElement>
+  >(() => {
+    if (localStorage.getItem("email") != null) {
+      dispatch(setWishlist(productdata[Number(id) - 1]));
+      setAddWishList(true);
+      showPopUp("success", "Added in WishList", "success", "show");
+    } else {
+      showPopUp("warning", "First Log in", "warning", "show");
+    }
+  }, [dispatch, id, productdata, userdata, userCart]);
 
-    //fetchData();
-    // if(!already)
-    // {
-    //   try {
-    //     const user=collection(db,"Cart");
-    //     const usersub=doc(db,"Cart",`${localStorage.getItem("email")}`);
-    //     console.log(localStorage.getItem())
-    //     const postco=collection(usersub,"CartProduct");
-    //     await addDoc(postco,{
-    //       id:id,
-    //       Name:Name,
-    //       image:image,
-    //       rating:rating,
-    //       desc:desc,
-    //       price:price
-    //     });
-      
-    //     console.log("hii");
-    //   } catch (err) {
-    //     console.log("error occure");
-    //   }
-    // }
-    // else{
-    //   console.warn("already added");
-    // }
-
-
-  // }
-
-  const saveInWishlist= useCallback<React.MouseEventHandler<HTMLButtonElement>>(() => {
-  // console.log(userdata);
-  dispatch(SetWishlist(productdata[Number(id)]));
-  // console.log(userCart);
-}, [dispatch, id, productdata, userdata, userCart]);
-
-
-	return (
+  return (
     <>
-      <Navbar />
       <ProductStyle>
         <div className="flex-style">
-          <img src={image} className="product-image-style" />
-          <button className="buy-button" onClick={saveInCart}> buy now </button>
-          <button className="wishlist-button" onClick={saveInWishlist}> wishlist </button>
+          <Carousel className="product-image-style">
+            <Carousel.Item>
+              <img
+                className="product-image-style"
+                src={image}
+                alt="First slide"
+              />
+            </Carousel.Item>
+            <Carousel.Item>
+              <img className="product-image-style" src={image} />
+            </Carousel.Item>
+            <Carousel.Item>
+              <img className="product-image-style" src={image} />
+            </Carousel.Item>
+          </Carousel>
+          <button className="buy-button" onClick={saveInCart}>
+            Buy now
+          </button>
+          {addWishList && (
+            <button className="wishlist-button" onClick={saveInWishlist}>
+              Wishlist
+            </button>
+          )}
+          {!addWishList && (
+            <button className="wishlist-button green" onClick={saveInWishlist}>
+              Added
+            </button>
+          )}
+          <Notification
+            title={popUp.title}
+            message={popUp.message}
+            type={popUp.type}
+            classValue={popUp.class}
+          />
         </div>
         <div className="product-detail-div">
           <p>{Name}</p>
@@ -142,6 +177,10 @@ const SingleProductCard=({Name,image,rating,desc,price}:propsType)=>{
               <span className="material-symbols-outlined">sell</span>bank of
               india
             </li>
+            <li className="flex">
+              <span className="material-symbols-outlined">sell</span>bank of
+              india
+            </li>
           </ul>
 
           <div className="flex">
@@ -153,8 +192,9 @@ const SingleProductCard=({Name,image,rating,desc,price}:propsType)=>{
             <button>check</button>
           </div>
           <div className="description-div">
-            <span >
-              Description- {desc} {desc}
+            <p>Description-</p>
+            <span>
+              {desc}
               {desc}
               {desc}
             </span>
@@ -163,6 +203,6 @@ const SingleProductCard=({Name,image,rating,desc,price}:propsType)=>{
       </ProductStyle>
     </>
   );
-}
+};
 
 export default SingleProductCard;

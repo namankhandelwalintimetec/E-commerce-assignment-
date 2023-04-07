@@ -1,42 +1,67 @@
-import { Wish } from "./WishlistStyle";
-import ele1 from "../../Assets/Image/ele1.png";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { infoDataType } from "../Home";
-import WishlistCard from './Components/WishListCard';
-import WishListNavbar from "./Components/WishListNavbar";
+import { StateTypeWishList, infoDataType } from "./InterfaceWishList";
+import WishlistCard from "../../Components/WishListCard/WishListCard";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { collection, doc, getDocs } from "@firebase/firestore";
+import { setWishlist } from "../../Redux/Action/Action";
+import { db } from "../../Config/Firebaseconfiguration";
+import { consumers } from "stream";
+import { useState } from "react";
+import { Console } from "console";
 
 const Wishlist = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [data, setData] = useState<infoDataType[]>([]);
   const userWishlist: infoDataType[] = useSelector(
-    (state: any) => state.userWishlist
+    (state: StateTypeWishList) => state.userWishlist
   );
+
+  useEffect(() => {
+    if (localStorage.getItem("email") == null) {
+      navigate("/");
+    }
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const dataSet = collection(
+        doc(db, "Cart", `${localStorage.getItem("email")}`),
+        "wishList"
+      );
+      const querySnapshot = await getDocs(dataSet);
+      querySnapshot.forEach((doc) => {
+        const data = doc.data() as infoDataType;
+        dispatch(setWishlist(data));
+        setData((arr) => [...arr, data]);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  window.addEventListener("load", () => {
+    fetchData();
+  });
 
   return (
     <>
-    <WishListNavbar/>
-        {userWishlist.map((Item) => {
+      <div className="product-card">
+        {userWishlist.map((Item: infoDataType) => {
           return (
-            <WishlistCard/>
-            // <div className="product-card1">
-            //     <div className="card-wishlist">
-            //       <img src={Item.image} className="wish-image" />
-            //       <div className="comment-div">
-            //         <p className="align-rating">{Item.rating}⭐</p>
-            //         <div className="vertrical-line"></div>
-            //         <p>{1}K</p>
-            //       </div>
-            //       <p>{Item.Name}</p>
-            //       <div className="wish-price">
-            //         <p>Rs. {Item.rating} </p>
-            //         <p>1800</p>
-            //         <p>Red</p>
-            //       </div>
-            //       <div className="wish-border"></div>
-            //       <button className="wish-button">Move To Cart</button>
-            //     </div>
-            // </div>
+            <WishlistCard
+              Name={Item.Name}
+              image={Item.image}
+              price={Item.price}
+              rating={Item.rating}
+              id={Item.id}
+              cate={Item.cate}
+              dec={Item.dec}
+            />
           );
         })}
+      </div>
     </>
   );
 };

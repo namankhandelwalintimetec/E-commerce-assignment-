@@ -1,61 +1,88 @@
-import ele1 from "../../Assets/Image/ele1.png";
-import { infoDataType } from "../../Screens/Home";
-import "./Card.css";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { LogOut, logout, setSingleProductData } from "../../Redux/Action/Action";
-import SingleProductDetail from "../../Redux/Reducer/SingleProductDetail";
+import FavoriteIcon from "../../Assets/Image/heart.png";
+import { setWishlist } from "../../Redux/Action/Action";
+import { ProductCardStyle } from "./CardStyle";
+import { productDataType } from "./CardInterface";
+import { infoDataType } from "../../Screens/Home";
+import userWishlist, {
+  typeValue,
+} from "../../Redux/Reducer/UserWishlistReducer";
 
-const Card = ({ id, Name, cate, price, image, rating, dec }: infoDataType) => {
+interface StateType {
+  cardData: productDataType[];
+  userWishlist: infoDataType[];
+}
+
+const ProductCard = ({
+  id,
+  Name,
+  cate,
+  price,
+  image,
+  rating,
+  dec,
+}: productDataType) => {
   const [comment, setComment] = useState<number>(0);
-  const ProductPage = useSelector((state: any) => state.SingleProductDetail);
-  const productdata = useSelector((state: any) => state.CardData);
+  const [favourit, setFavourit] = useState<boolean>(false);
+  const productdata = useSelector((state: StateType) => state.cardData);
+  const userWishlist = useSelector((state: StateType) => state.userWishlist);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
     setComment(Math.floor(Math.random() * 100));
-    // dispatch(setSingleProductData(productdata[id]));
+    const index = userWishlist.findIndex(
+      (product: infoDataType) => product.id == String(Number(id))
+    );
+    if (index === -1) {
+      setFavourit(true);
+    }
   }, []);
 
-  const send = () => {
+  const navigateProductDescPage = () => {
     navigate(`/product/${cate}/${id}`);
   };
 
   return (
-    <>
-      <div className="card">
-        <img src={image} className="card-image" />
+    <ProductCardStyle>
+      <div className="card-product">
+        {favourit && (
+          <span
+            className="material-symbols-outlined favicon"
+            onClick={() => {
+              dispatch(setWishlist(productdata[Number(id) - 1]));
+            }}
+          >
+            favorite
+          </span>
+        )}
+        {!favourit && <img className="favicon" src={FavoriteIcon} />}
+        <img
+          src={image}
+          className="card-image"
+          onClick={navigateProductDescPage}
+        />
         <div className="comment-div">
           <p className="align-rating">{rating}⭐</p>
           <div className="vertrical-line"></div>
-          <p>{comment}K</p>
+          <p className="align-rating">{comment}K</p>
         </div>
         <div className="div-content">
-          <p className="align"> {Name}</p>
+          <b className="align strong">{Name}</b>
           <p className="align">Best deals here--</p>
-          <p className="align">Rs.{price}</p>
+          <div className="flex-box">
+            <p className="align">Rs.{price}</p>
+            <p className="align overline">Rs. {Number(price) * 2}</p>
+            <p className="offer">(80% OFF)</p>
+          </div>
         </div>
 
-        <div className="card-button-div">
-          <button className="show-button" onClick={send}>
-            show
-          </button>
-        </div>
-
-        <div className="hide">
-          <button className="card-button">
-            <span className="material-symbols-outlined">shopping_cart</span>
-          </button>
-          <button className="card-button">
-            <span className="material-symbols-outlined">favorite</span>
-          </button>
-        </div>
+        <div className="card-button-div">Trending...</div>
       </div>
-    </>
+    </ProductCardStyle>
   );
 };
 
-export default Card;
+export default ProductCard;

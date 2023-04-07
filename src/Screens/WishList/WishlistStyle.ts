@@ -31,7 +31,7 @@ export const Wish = styled.div`
   .card-wishlist{
 	margin:auto;
 	margin-top:10vh;
-	width:20%;
+	width:10%;
 	height:400px;
 	background:wheat;
 	color:black;

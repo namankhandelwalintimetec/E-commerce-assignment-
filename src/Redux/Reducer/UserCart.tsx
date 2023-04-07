@@ -1,5 +1,5 @@
 import { type } from "os";
-import { infoDataType } from "../../Screens/Home";
+import { removeUser, setUser, updateCart } from "../../Components/Interfaces";
 
 export interface propType {
   idValue: string;
@@ -8,8 +8,8 @@ export interface propType {
   price: string;
   rating: string;
   desc: string;
-  qua: number;
-  cate:string;
+  qua: string;
+  cate: string;
 }
 export interface propType1 {
   id: string;
@@ -18,19 +18,9 @@ export interface propType1 {
   price: string;
   rating: string;
   desc: string;
-  qua: number;
+  qua: string;
 }
 
-
-interface setUser{
-  type:"SetUserCart";
-  payload:propType;
-}
-
-interface removeUser {
-  type: "removeUserCart";
-  payload: propType1;
-}
 let initialState: propType[] = [
   {
     idValue: "",
@@ -39,25 +29,43 @@ let initialState: propType[] = [
     price: "",
     rating: "",
     desc: "",
-    qua: 0,
-    cate:""
+    qua: "",
+    cate: "",
   },
 ];
-type typeValue=setUser | removeUser
+type typeValue = setUser | removeUser | updateCart;
 
-// interface ActionType {
-//   type: string;
-//   payload: any;
-// }
-
-const userCart = (state :propType[]=[], action:typeValue):propType[] => {
+const userCart = (state: propType[] = [], action: typeValue): propType[] => {
   switch (action.type) {
     case "SetUserCart":
-      return [...state, action.payload];
+      const index = state.findIndex(
+        (product) => product.idValue === action.payload.idValue
+      );
+      if (index === -1) {
+        return [...state, action.payload];
+      } else {
+        const newState = [...state];
+        return newState;
+      }
+
+    case "updateCart":
+      const index1: number = state.findIndex(
+        (product) => product.idValue === action.payload.idValue
+      );
+      if (index1 === -1) {
+        return [...state, action.payload];
+      } else {
+        const newState = [...state];
+        const updatedProduct = {
+          ...newState[index1],
+          qua: String(Number(newState[index1].qua) + 1),
+        };
+        newState[index1] = updatedProduct;
+        return newState;
+      }
+
     case "removeUserCart":
-      const productId=action.payload.id;
-      console.log(action.payload);
-      console.log("=========================");
+      const productId = action.payload.id;
       return state.filter((product) => product.idValue !== productId);
     default:
       return state;
