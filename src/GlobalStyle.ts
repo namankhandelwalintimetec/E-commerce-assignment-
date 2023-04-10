@@ -1,6 +1,5 @@
 import { createGlobalStyle } from "styled-components";
 export const GlobalStyle = createGlobalStyle`
-
 .main-div{
   margin: 0;
   color: #000;
@@ -14,13 +13,13 @@ export const GlobalStyle = createGlobalStyle`
 }
 
 .main{
-  width: 35%;
+  margin-top:-15vh;
+  width: 30vw;
   height: 75vh;
   overflow: scroll;
   border-radius: 10px;
   box-shadow: 5px 20px 50px #000;
   margin-left:100px;
-  
 }
 
 .main::-webkit-scrollbar{
@@ -39,13 +38,13 @@ export const GlobalStyle = createGlobalStyle`
 
 @keyframes mymove {
   50% {
-    scale: .5;
+    scale: .8;
   }
 }
 
 .circular{
-  margin:8%;
-  margin-left:22vh;
+  margin:3vw;
+  margin-left:23vh;
   width:30%;
   height:10%;
   background-color:#6558D2;;
@@ -54,8 +53,11 @@ export const GlobalStyle = createGlobalStyle`
   padding:10px;
 }
 
+input::placeholder {
+    font-size: 1vw;
+}
 .toggle-text {
-  font-size: 1rem;
+  font-size: 1vw;
   font-weight: 700;
   color: white;
 }
@@ -65,27 +67,10 @@ export const GlobalStyle = createGlobalStyle`
   height: 300px;
 }
 
-@media screen and (max-height: 480px) {
-  .circular{
-      margin: 8%;
-      margin-left: 12vh;
-      width: 10rem;
-      height: 2rem;
-      background-color: #6558D2;
-      border-radius: 100rem 100rem 0 0;
-      margin-bottom: 0px;
-      text-align: center;
-      padding: 20px;
-    }
-
-  .signup::-webkit-scrollbar {
-    display: none;
-  }
-}
 
 .label {
   color: #fff;
-  font-size: 2.3em;
+  font-size: 2vw;
   justify-content: center;
   display: flex;
   margin: 60px;
@@ -97,11 +82,11 @@ export const GlobalStyle = createGlobalStyle`
 .button {
   width: 20%;
   height: 40px;
-  margin-left:25%;
+  margin-left:12vw;
   justify-content: center;
   color: #fff;
-  background: #3392F3;
-  font-size: 1em;
+  background: #6558D2;
+  font-size: 1vw;
   font-weight: bold;
   margin-top: 20px;
   outline: none;
@@ -123,7 +108,7 @@ export const GlobalStyle = createGlobalStyle`
   transition: .8s ease-in-out;
 }
 
-.login label {
+.login label{
     color: #573b8a;
     transform: scale(.4);
     }
@@ -144,6 +129,5 @@ export const GlobalStyle = createGlobalStyle`
   height: auto;
   list-style: none;
  }
- 
  
 `;

@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-export const CartStyle= styled.div`
+export const CartStyle = styled.div`
 background:#F1F3F6;
 .basket-labels{
 	background:black;
@@ -23,6 +23,7 @@ background:#F1F3F6;
 }
 .price-tag{
 	margin-left:-27vw;
+
 }
 .subtotal-tag{
 	margin-left:-9vw;
@@ -82,4 +83,29 @@ background:#F1F3F6;
 	padding:2vh;
 	text-align:center;
 }
-`
+ @media screen and (max-width: 667px) {
+	.basket{
+	display:block;
+    }
+	.product-div{
+		width:100vw;
+	}
+	.price-cart{
+	box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+	padding:2vw;
+	color:black;
+	margin-left:-10vw;
+	margin-top:-5vh;
+	width:70vw;
+	height:50vh;
+	top:8vh;
+	left:4vw;
+	
+  }
+  .ul{
+		display:flex;
+		gap:60vw
+		width:100vw;
+	}
+ }
+`;

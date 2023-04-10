@@ -82,8 +82,8 @@ const Main = () => {
       <BrowserRouter>
         <GlobalStyle />
         <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
+        <Routes data-testid="router">
+          <Route path="/" data-testid="router" element={<Home />} />
           <Route path="/login" element={<Authentication />} />
           <Route path="/product/:cate" element={<ProductCategoryPage />} />
           <Route path="/Cart" element={<ShopCart />} />

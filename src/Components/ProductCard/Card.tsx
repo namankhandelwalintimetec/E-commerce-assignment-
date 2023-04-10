@@ -39,7 +39,7 @@ const ProductCard = ({
   };
 
   return (
-    <ProductCardStyle>
+    <ProductCardStyle data-testid="ProductCard">
       <div className="card-product">
         {favourit && (
           <span
@@ -56,6 +56,7 @@ const ProductCard = ({
           src={image}
           className="card-image"
           onClick={navigateProductDescPage}
+          data-testid="imagenav"
         />
         <div className="comment-div">
           <p className="align-rating">{rating}⭐</p>

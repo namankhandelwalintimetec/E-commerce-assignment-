@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Cartstyle = styled.div`
-  width: 100%;
+  width: 100vh;
   height: 30vh;
   margin: auto;
   margin-bottom: 6vh;
@@ -107,4 +107,57 @@ export const Cartstyle = styled.div`
   .basket-labels {
     display: flex;
   }
+   @media screen and (max-width: 667px) {
+  width: 100vh;
+  height: 30vh;
+  // margin: auto;
+  margin-bottom: 6vh;
+   }
+   .delivery-div {
+    display:none;
+  }
+  .price-div
+  {
+    display:none;
+  }
+  .middle-div {
+    color: black;
+    font-weight: 400;
+    font-size:5vw;
+    gap: 1vh;
+    width: 30vw;
+    padding: 3vh;
+    margin-left: -50vw;
+  }
+  .remove-button {
+    position: relative;
+    right: -25vw;
+    bottom: -1vh;
+    top:8vh;
+    border: none;
+    color: black;
+    font-weight: 700;
+  }
+  .quantity {
+    margin-left:-1vw;
+  }
+  .sub-total {
+    width: 15vw;
+    position: relative;
+    left: -80vw;
+    top:2vh;
+  }
+  .set-margin-cart {
+    font-size:2vw;
+  }
+  .last-div {
+    display: flex;
+    margin-top: -2vh;
+    font-weight: 600;
+    font-size: 10px;
+    gap: 1vw;
+    color: green;
+    padding: 1px;
+  }
+}
 `;

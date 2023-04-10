@@ -1,13 +1,11 @@
 import styled from "styled-components";
 
 export const WishCart = styled.div`
-
   .close {
     position: relative;
     top: 4px;
-	
-	color black;
-	pointer:courser;
+    color black;
+    pointer:courser;
   }
   .back-image {
     margin: auto;

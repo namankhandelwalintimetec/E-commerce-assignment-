@@ -5,10 +5,8 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { collection, doc, getDocs } from "@firebase/firestore";
 import { setWishlist } from "../../Redux/Action/Action";
-import { db } from "../../Config/Firebaseconfiguration";
-import { consumers } from "stream";
+import { db } from "../../Config/Config";
 import { useState } from "react";
-import { Console } from "console";
 
 const Wishlist = () => {
   const navigate = useNavigate();
@@ -47,7 +45,7 @@ const Wishlist = () => {
 
   return (
     <>
-      <div className="product-card">
+      <div className="product-card" data-testid="wishCard">
         {userWishlist.map((Item: infoDataType) => {
           return (
             <WishlistCard

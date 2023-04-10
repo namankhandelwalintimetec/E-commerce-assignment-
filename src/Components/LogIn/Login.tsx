@@ -1,6 +1,7 @@
 import { useState } from "react";
 import InputField from "../Atoms/InputField";
 import { authenticationPropType } from "./LoginInterface";
+import Notification from "../NotificationPopUp";
 
 const Login = ({
   toggle,
@@ -32,13 +33,13 @@ const Login = ({
   ];
   return (
     <>
-      <div className="signup">
+      <div className="signup" data-testid="authentication">
         <form
           onSubmit={(event) => {
             event.preventDefault();
           }}
         >
-          <label className="label" aria-hidden="true" data-testid={toggle}>
+          <label className="label" aria-hidden="true" data-testid="Sign Up">
             {toggle}
           </label>
 
@@ -51,7 +52,6 @@ const Login = ({
               onChange={item.onchange}
             ></InputField>
           ))}
-          <p>{errorMessage}</p>
           <button
             className="button"
             onClick={() => {

@@ -1,7 +1,7 @@
 import { cartDataActionType } from "../../Components/Interfaces";
 import { infoDataType } from "../../Components/Interfaces";
 
-const initialState :infoDataType[] = [
+const initialState: infoDataType[] = [
   {
     id: "",
     Name: "",

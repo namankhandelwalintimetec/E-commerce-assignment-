@@ -3,18 +3,19 @@ import styled from "styled-components";
 export const NotificationStyled = styled.div`
   .notification {
     position: fixed;
-    top: 40%;
-    left: 50%;
+    top: 10%;
+    left: 80%;
     transform: translate(-50%, 0);
     padding: 1rem;
     width: 50%;
-    height: 30%;
+    height: 20%;
     max-width: 600px;
     border-radius: 0.25rem;
     background-color: #f8f9fa;
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
     overflow: hidden;
     transition: all 0.3s ease-in-out;
+    color:white;
   }
 
   .notification h3 {
@@ -36,10 +37,11 @@ export const NotificationStyled = styled.div`
   }
 
   .notification.success {
-    background-color: #d4edda;
+    background-color: #3DED97;
     border-color: #c3e6cb;
-    color: #155724;
+    // color: #155724;
     font-weight: 700;
+    color:white;
   }
 
   .notification.warning {
@@ -51,7 +53,7 @@ export const NotificationStyled = styled.div`
   .notification.error {
     background-color: #f8d7da;
     border-color: #f5c6cb;
-    color: #721c24;
+    color: white;
   }
 
   .notification .close {

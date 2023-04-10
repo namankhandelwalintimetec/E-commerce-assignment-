@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { SuccessOrder } from "./OrderPlacedStyle";
-import  images from '../../Assets/Image/images.png'
+import images from "../../Assets/Image/images.png";
 
 const OrderPlace = () => {
   const navigate = useNavigate();
   return (
-    <div>
+    <div data-testid="orderPlace">
       <SuccessOrder>
         <img src={images}></img>
         <h1 className="order-text">your order placed successfully !</h1>
@@ -14,6 +14,7 @@ const OrderPlace = () => {
           onClick={() => {
             navigate("/");
           }}
+          data-testid="orderPlaceNavigate"
         >
           Continue Shop...
         </button>

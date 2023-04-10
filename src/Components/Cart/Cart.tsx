@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { GrFormSubtract } from "react-icons/gr";
 import { GrFormAdd } from "react-icons/gr";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,9 +18,7 @@ const Cart = ({
   image,
   qua,
 }: propType) => {
-  const productdata: any = useSelector(
-    (state: StateTypeCart) => state.CardData
-  );
+  const productdata: any = useSelector((state: StateTypeCart) => state.CardData);
   const cardValue = useSelector((state: StateTypeCart) => state.CardValue);
   const [popUp, setPopUp] = useState({
     title: "success",
@@ -29,12 +27,12 @@ const Cart = ({
     class: "hide",
   });
   const [quantity, setQuantity] = useState(Number(qua));
-  const [cost, setcost] = useState(Number(price));
+  const [cost, setCost] = useState(Number(price));
   const dispatch = useDispatch();
 
   useEffect(() => {
     setQuantity(Number(qua));
-    setcost(quantity * Number(price));
+    setCost(quantity * Number(price));
     if (quantity === 1) {
       dispatch(increseCartValue(cardValue + cost));
     } else {
@@ -67,7 +65,7 @@ const Cart = ({
   const quantityIncrease = () => {
     if (quantity < 5) {
       setQuantity(quantity + 1);
-      setcost((quantity + 1) * Number(price));
+      setCost((quantity + 1) * Number(price));
       dispatch(increseCartValue(cardValue + Number(price)));
       dispatch(
         cartUpdate({ idValue, Name, image, rating, desc, price, qua, cate })
@@ -82,7 +80,7 @@ const Cart = ({
   const quantityDecsease = () => {
     if (quantity > 1) {
       setQuantity(quantity - 1);
-      setcost((quantity - 1) * Number(price));
+      setCost((quantity - 1) * Number(price));
       dispatch(increseCartValue(cardValue - Number(price)));
       dispatch(
         cartUpdate({ idValue, Name, image, rating, desc, price, qua, cate })
@@ -106,7 +104,7 @@ const Cart = ({
         type={popUp.type}
         classValue={popUp.class}
       />
-      <div>
+      <div data-testid="cart-card">
         <div className="cart-card">
           <div className="product-image">
             <img src={image} className="product-frame" />
@@ -117,17 +115,21 @@ const Cart = ({
             <p className="set-margin-cart subtitle-cart">4K Comment</p>
             <p className="set-margin-cart subtitle-cart">Offer(70%) </p>
             <p className="set-margin-cart subtitle-cart free">
-              {" "}
-              Free delevary above 799{" "}
+              Free delevary above 799
             </p>
-            <div className="remove-button">
+            <div className="remove-button" data-testid="remove-item">
               <p onClick={removeItem}>Remove</p>
             </div>
           </div>
           <div className="quantity d-flex ">
-            <GrFormSubtract onClick={quantityDecsease} />
-            <div className="box-quantity">{quantity}</div>
-            <GrFormAdd onClick={quantityIncrease} />
+            <GrFormSubtract
+              onClick={quantityDecsease}
+              data-testid="removeButton"
+            />
+            <div className="box-quantity" data-testid="quantity-box">
+              {quantity}
+            </div>
+            <GrFormAdd onClick={quantityIncrease} data-testid="addButton" />
           </div>
           <div className="price-div">
             <p>Rs. {price}</p>

@@ -40,7 +40,7 @@ const SingUp = ({
 
   return (
     <>
-      <div className="signup">
+      <div className="signup" data-testid="Sign Up">
         <form
           onSubmit={(event) => {
             event.preventDefault();

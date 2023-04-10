@@ -30,12 +30,12 @@ export const ProductStyle = styled.div`
     width: 45%;
     height: 40px;
     color: black;
-    background:#3392F3;
+    background: #3392f3;
     font-size: 1em;
     margin: 2%;
     border-radius: 2px;
     font-weight: 600;
-    border:none;
+    border: none;
   }
 
   .buy-button:hover {
@@ -96,5 +96,48 @@ export const ProductStyle = styled.div`
   .input-div {
     border-bottom: 2px solid green;
     margin-left: 4%;
+  }
+
+  @media screen and (max-width: 667px) {
+    width: 100vw;
+    height: 100vh;
+    margin: auto;
+    color: black;
+    display: block;
+    overflow: scroll;
+    scroll: none;
+    .product-image-style {
+      width: 80vw;
+      height: 400px;
+      display: block;
+      margin-left: 5vw;
+      margin-bottom: 7vh;
+    }
+    .flex-style {
+      padding: 2%;
+      width: 90vw;
+      height: 95vh;
+      border: 1px solid wheat;
+    }
+
+    .buy-button,
+    .wishlist-button {
+      width: 30vw;
+      height: 40px;
+      color: black;
+      background: #3392f3;
+      font-size: 1em;
+      margin: 2%;
+      margin-left: 11vw;
+      border-radius: 2px;
+      font-weight: 600;
+      border: none;
+    }
+    .product-detail-div {
+      padding: 1%;
+      margin-left: 4%;
+      width: 95vw;
+      margin: 4vw;
+    }
   }
 `;

@@ -4,9 +4,9 @@ import { NavStyle } from "./NavbarStyle";
 import { FaSearch } from "react-icons/fa";
 import { BiLogInCircle } from "react-icons/bi";
 import { BiUserCircle } from "react-icons/bi";
-import { auth } from "../../Config/Firebaseconfiguration";
+import { auth } from "../../Config/Config";
 import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux/es/exports";
+import { useDispatch, useSelector } from "react-redux";
 import { setProductType, setText } from "../../Redux/Action/Action";
 import { propType } from "../../Redux/Reducer/UserCart";
 import {
@@ -66,8 +66,8 @@ const Navbar = () => {
 
   return (
     <>
-      <NavStyle>
-        <Link to="/" className="logo">
+      <NavStyle data-testid="Navbar">
+        <Link to="/" className="logo" data-testid="logoNav">
           Sopshy
         </Link>
         <ul className="list-bar">
@@ -77,6 +77,7 @@ const Navbar = () => {
                 dispatch(setProductType(""));
                 navigate("/");
               }}
+              data-testid="homeNavigation"
             >
               All
             </p>
@@ -87,6 +88,7 @@ const Navbar = () => {
               dispatch(setProductType("men"));
               navigateCate("men");
             }}
+            data-testid="menProductNavigation"
           >
             Men
           </li>
@@ -96,6 +98,7 @@ const Navbar = () => {
               dispatch(setProductType("female"));
               navigateCate("female");
             }}
+            data-testid="femaleProductNavigation"
           >
             Women
           </li>
@@ -105,6 +108,7 @@ const Navbar = () => {
               dispatch(setProductType("electronic"));
               navigateCate("electronic");
             }}
+            data-testid="electronicProductNavigation"
           >
             Electronic
           </li>
@@ -129,7 +133,9 @@ const Navbar = () => {
                 className={
                   localStorage.getItem("email") ? "hide" : "show color"
                 }
+                data-testid="loginButton"
               />
+
               <BiUserCircle
                 size={"1.3em"}
                 className={
@@ -140,13 +146,21 @@ const Navbar = () => {
           </li>
           <li className="profile-inside">
             <Link to="/wishlist">
-              <span className="material-symbols-outlined color">favorite</span>
+              <span
+                className="material-symbols-outlined color"
+                data-testid="wishlistNav"
+              >
+                favorite
+              </span>
             </Link>
           </li>
 
           <li className="profile-inside">
             <Link to="/Cart">
-              <span className="material-symbols-outlined color">
+              <span
+                className="material-symbols-outlined color"
+                data-testid="CartNav"
+              >
                 shopping_cart
               </span>
               <span className="number">
@@ -154,6 +168,88 @@ const Navbar = () => {
               </span>
             </Link>
           </li>
+        </ul>
+        <ul className="dropdown">
+          <li className="text">
+            <BiUserCircle
+              size={"1.3em"}
+              className={localStorage.getItem("email") ? "show color" : "hide "}
+            />
+          </li>
+          <div className="dropdown-content">
+            <li className="list-inside">
+              <p
+                onClick={() => {
+                  dispatch(setProductType(""));
+                  navigate("/");
+                }}
+              >
+                All
+              </p>
+            </li>
+            <li
+              className="li"
+              onClick={() => {
+                dispatch(setProductType("men"));
+                navigateCate("men");
+              }}
+            >
+              Men
+            </li>
+            <li
+              className="li"
+              onClick={() => {
+                dispatch(setProductType("female"));
+                navigateCate("female");
+              }}
+            >
+              Women
+            </li>
+            <li
+              className="li"
+              onClick={() => {
+                dispatch(setProductType("electronic"));
+                navigateCate("electronic");
+              }}
+            >
+              Electronic
+            </li>
+            <li className="profile-inside">
+              <Link to="/login" onClick={handleLogout}>
+                <BiLogInCircle
+                  size={"1.3em"}
+                  className={
+                    localStorage.getItem("email") ? "hide" : "show color"
+                  }
+                />
+
+                <BiUserCircle
+                  size={"1.3em"}
+                  className={
+                    localStorage.getItem("email") ? "show color" : "hide "
+                  }
+                />
+              </Link>
+            </li>
+            <li className="profile-inside">
+              <Link to="/wishlist">
+                <span className="material-symbols-outlined color">
+                  favorite
+                </span>
+              </Link>
+            </li>
+
+            <li className="profile-inside">
+              <Link to="/Cart">
+                <span className="material-symbols-outlined color">
+                  shopping_cart
+                </span>
+                <span className="number">
+                  {userCard.length ? userCard.length : ""}
+                </span>
+              </Link>
+            </li>
+          </div>
         </ul>
       </NavStyle>
     </>

@@ -5,7 +5,7 @@ const OrderFail = () => {
   const navigate = useNavigate();
   return (
     <div>
-      <OrderFailed>
+      <OrderFailed data-testid="orderFail">
         <img></img>
         <h1 className="order-text">your order Not Placed !</h1>
         <button
@@ -13,6 +13,7 @@ const OrderFail = () => {
           onClick={() => {
             navigate("/cart");
           }}
+          data-testId="orderFailNavigate"
         >
           Try again...
         </button>

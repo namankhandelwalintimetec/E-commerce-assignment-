@@ -1,4 +1,3 @@
-
 export const LinkAddresh = [
   { to: "/", item: "Home" },
   {
@@ -6,10 +5,6 @@ export const LinkAddresh = [
     item: "Add",
   },
 ];
-
-
-
-
 
 export const categoryList = [
   {

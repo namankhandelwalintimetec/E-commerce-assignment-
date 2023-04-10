@@ -78,15 +78,6 @@ export const CheckOutPageStyle = styled.div`
   .display-flex {
     display: flex;
   }
-  .shift {
-    margin-top: 2vh;
-    color: black;
-    background: black;
-    width: 40vw;
-    position: relative;
-    right: 0;
-  }
-
   @media (max-width: 800px) {
     .row {
       flex-direction: column-reverse;

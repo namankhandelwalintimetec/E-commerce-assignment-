@@ -81,9 +81,8 @@ export const cartUpdate = (value: propType) => {
   };
 };
 
-
 export const resetCartValue = () => {
   return {
     type: "Reset Cart",
   };
-}
+};

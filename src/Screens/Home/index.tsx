@@ -1,17 +1,12 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux/es/exports";
-import { db } from "../../Config/Firebaseconfiguration";
+import { db } from "../../Config/Config";
 import Footerpage from "../../Components/Footer/Footer";
 import { collection, getDocs } from "firebase/firestore";
 import ProductCard from "../../Components/ProductCard/Card";
-import SerchText from "../../Redux/Reducer/SerchText";
 import CarouselComponent from "../../Components/Courosoul/Cousoloul";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setEmail } from "../../Redux/Action/Action";
 import { infoDataType, stateType } from "./InterfaceHome";
-import { categoryList } from "../../Components/Constant";
-import serchText from "../../Redux/Reducer/SerchText";
 
 const Home = () => {
   const [productDetail, setProductDetail] = useState<infoDataType[]>([]);
@@ -52,7 +47,7 @@ const Home = () => {
   return (
     <>
       <CarouselComponent />
-      <div className="product-card">
+      <div className="product-card" data-testid="homePage">
         {productDetail.map((item: infoDataType) => {
           if (SerchText !== "" && item.Name && item.Name.includes(SerchText)) {
             return (

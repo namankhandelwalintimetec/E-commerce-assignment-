@@ -1,4 +1,3 @@
-
-export interface StateTypeCheckOut{
-	CardValue:number;
+export interface StateTypeCheckOut {
+  CardValue: number;
 }

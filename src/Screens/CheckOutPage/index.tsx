@@ -1,7 +1,7 @@
 import { CheckOutPageStyle } from "./checkOutStyle";
 import { useSelector, useDispatch } from "react-redux";
 import { collection, doc, setDoc } from "@firebase/firestore";
-import { db } from "../../Config/Firebaseconfiguration";
+import { db } from "../../Config/Config";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { StateTypeCheckOut } from "./InterfaceCheckOut";
@@ -40,7 +40,7 @@ const CheckOut = () => {
   };
 
   return (
-    <CheckOutPageStyle>
+    <CheckOutPageStyle data-testid="checkout">
       <div className="div-main">
         <div className="middle-div">
           <div className="container">
@@ -167,6 +167,7 @@ const CheckOut = () => {
                 value="Continue to checkout"
                 className="btn"
                 onClick={bookOrder}
+                data-testId="navigate"
               />
             </form>
           </div>

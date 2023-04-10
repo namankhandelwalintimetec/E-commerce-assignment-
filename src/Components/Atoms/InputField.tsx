@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import { Input } from "./InputFieldStyled";
 
 interface propsType {
   type: string;
@@ -10,7 +10,7 @@ interface propsType {
   };
   onChange: (
     value: React.SetStateAction<{
-	  name:string;
+      name: string;
       email: string;
       password: string;
     }>
@@ -31,6 +31,7 @@ const InputField = ({
         name={name}
         placeholder={placeHolder}
         required
+        data-testid={name}
         onChange={(event) => {
           onChange((prev) => ({
             ...prev,
@@ -41,19 +42,5 @@ const InputField = ({
     </>
   );
 };
-
-const Input = styled.input`
-  width: 60%;
-  height: 25px;
-  background: #e0dede;
-  justify-content: center;
-  display: flex;
-  margin: 10px auto;
-  margin-left:25%;
-  padding: 10px;
-  border: none;
-  outline: none;
-  border-radius: 5px;
-`;
 
 export default InputField;

@@ -6,7 +6,7 @@ import { Spinner } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { CateStyle } from "./styleCatePage";
 import { setProductType } from "../../Redux/Action/Action";
-import { categoryList } from "../../Components/Constant";
+import { categoryList } from "../../Components/Links";
 
 const ProductCategoryPage = () => {
   const productdata = useSelector((state: any) => state.CardData);
@@ -32,22 +32,7 @@ const ProductCategoryPage = () => {
       </div>
       <div className="filter-option">
         <div className="filter-div">
-          <p>Categories</p>
-
-          {categoryList.map((item) => {
-            return (
-              <p
-                className="cate-name"
-                onClick={(e) => {
-                  changeCate(item.type);
-                }}
-              >
-                {item.text}
-              </p>
-            );
-          })}
-
-          <div className="slidecontainer rating-box">
+          <div className="slidecontainer rating-box" data-testid="ProductCard">
             <input
               type="range"
               className="slider"
@@ -64,6 +49,7 @@ const ProductCategoryPage = () => {
               type="number"
               className="input-rating"
               value={rating}
+              data-testid="rating"
               onChange={(e: any) => {
                 if (e.target.value <= 5 && e.target.value >= 0) {
                   setRating(e.target.value);
@@ -71,7 +57,6 @@ const ProductCategoryPage = () => {
               }}
             ></input>
           </div>
-          <p className="cate-name">Company</p>
         </div>
 
         <div className="product-div">

@@ -2,12 +2,19 @@ import { Footerstyle } from "./FooterStyled";
 import returnicon from "../../Assets/Image/30days.png";
 import guarantee from "../../Assets/Image/gaurantee.jpg";
 
-const Footerpage=()=> {
+const Footerpage = () => {
   return (
     <Footerstyle data-testid="footer">
       <div className="footer">
         <div className="footer-to-top">
-          <p className="center-text">Back To Top</p>
+          <p
+            className="center-text"
+            onClick={() => {
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+          >
+            Back To Top
+          </p>
         </div>
         <div className="footer-div">
           <div className="botton-footer">
@@ -39,11 +46,15 @@ const Footerpage=()=> {
             </div>
             <div>
               <div className="display-img">
-                <img className="footer-image" src={guarantee} />
+                <img className="footer-image" src={guarantee} alt="tag" />
                 <p>100% ORIGINAL guarantee for all products at shosy</p>
               </div>
               <div className="display-img">
-                <img className="footer-image" src={returnicon} />
+                <img
+                  className="footer-image"
+                  src={returnicon}
+                  alt="14 Days return valid and get write product also......."
+                />
                 <p>14 Days return valid and get write product also.......</p>
               </div>
             </div>
@@ -52,5 +63,5 @@ const Footerpage=()=> {
       </div>
     </Footerstyle>
   );
-}
+};
 export default Footerpage;

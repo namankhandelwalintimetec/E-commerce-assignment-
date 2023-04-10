@@ -4,15 +4,22 @@ import Login from "../../Components/LogIn/Login";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setEmail } from "../../Redux/Action/Action";
-import { auth } from "../../Config/Firebaseconfiguration";
+import { auth } from "../../Config/Config";
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
 } from "firebase/auth";
+import Notification from "../../Components/NotificationPopUp";
 
 const Authentication = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [toggleButton, setToggleButton] = useState("Sing up");
+  const [popUp, setPopUp] = useState({
+    title: "success",
+    message: "Added in WishList",
+    type: "success",
+    class: "hide",
+  });
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -34,6 +41,7 @@ const Authentication = () => {
   const userSignIn = async () => {
     if (!userInfo.name || !userInfo.email || !userInfo.password) {
       setErrorMessage("Fill all fields");
+      showPopUp("warning", "Fill all fields", "warning", "show");
       return;
     }
     setErrorMessage("");
@@ -44,14 +52,17 @@ const Authentication = () => {
         userInfo.password
       );
       changeOption();
+      showPopUp("success", "Sign In SuccessFully", "success", "show");
     } catch (error) {
       setErrorMessage("write valid inputs");
+      showPopUp("success", errorMessage, "error", "show");
     }
   };
 
   const userLogIn = async () => {
     if (!userInfo.email || !userInfo.password) {
       setErrorMessage("Fill all fields");
+      showPopUp("warning", "Fill all fields", "warning", "show");
       return;
     }
     setErrorMessage("");
@@ -64,9 +75,13 @@ const Authentication = () => {
       localStorage.setItem("email", userInfo.email);
       localStorage.setItem("Password", userInfo.password);
       dispatch(setEmail(userInfo.email));
-      navigate("/");
+      showPopUp("success", "Logn In SuccessFully", "success", "show");
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
     } catch (error) {
       console.log(error);
+      showPopUp("success", errorMessage, "error", "show");
     }
   };
 
@@ -75,10 +90,38 @@ const Authentication = () => {
     else if (toggleButton === "log in") setToggleButton("Sing up");
   };
 
+  const showPopUp = (
+    title: string,
+    message: string,
+    type: string,
+    classValue: string
+  ) => {
+    setPopUp({
+      title: title,
+      message: message,
+      type: type,
+      class: classValue,
+    });
+    setTimeout(() => {
+      setPopUp({
+        title: title,
+        message: message,
+        type: type,
+        class: "hide",
+      });
+    }, 1000);
+  };
+
   return (
     <>
+      <Notification
+        title={popUp.title}
+        message={popUp.message}
+        type={popUp.type}
+        classValue={popUp.class}
+      />
       <div className="main-div">
-        <div className="main">
+        <div className="main" data-testid="wishCard">
           <div className={toggleButton === "Sing up" ? "toggle" : "togglenot"}>
             <SingUp
               setUserCredential={setUserCredential}
@@ -97,9 +140,13 @@ const Authentication = () => {
             />
           </div>
           <div className="circular">
-            <p onClick={changeOption} className="toggle-text">
+            <div
+              onClick={changeOption}
+              className="toggle-text"
+              data-testid="toggle-text"
+            >
               {toggleButton === "log in" ? "Sign up" : "Log In"}
-            </p>
+            </div>
           </div>
         </div>
       </div>

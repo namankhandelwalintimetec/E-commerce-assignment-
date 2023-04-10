@@ -78,9 +78,9 @@ export const ProductCardStyle = styled.div`
     font-size: 10px;
     font-weight: 700;
   }
-  .align-rating{
-    margin-left:2px;
-    margin-top:2px;
+  .align-rating {
+    margin-left: 2px;
+    margin-top: 2px;
   }
 
   .comment-div:hover {
@@ -169,5 +169,33 @@ export const ProductCardStyle = styled.div`
     margin-top: 1%;
     margin-left: 1%;
     color: orangered;
+  }
+
+  @media screen and (max-width: 667px) {
+    .card-product {
+      background-color: rgb(218, 231, 227);
+      color: black;
+      font-weight: 500;
+      width: 40vh;
+      border-radius: 10px;
+      padding: 1%;
+      font-size: 1em;
+      margin-left: -2vw;
+      text-align: center;
+      border: none;
+    }
+    .card-button-div {
+      color: green;
+      font-size: 4vw;
+      margin-top: -3vh;
+    }
+    .favicon {
+      width: 8%;
+      height: 8%;
+      position: relative;
+      top: 1vh;
+      left: 27vw;
+      opacity: 0.8;
+    }
   }
 `;
