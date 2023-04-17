@@ -3,12 +3,10 @@ import { StateTypeWishList, infoDataType } from "./InterfaceWishList";
 import WishlistCard from "../../Components/WishListCard/WishListCard";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 
 const Wishlist = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [data, setData] = useState<infoDataType[]>([]);
   const userWishlist: infoDataType[] = useSelector(
     (state: StateTypeWishList) => state.userWishlist
   );

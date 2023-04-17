@@ -50,4 +50,7 @@ export const Footerstyle = styled.footer`
     margin-left: 45vw;
     color: white;
   }
+  @media screen and (max-width: 667px) {
+    overflow:hidden;
+  }
 `;

@@ -7,14 +7,12 @@ import {
 import { orderSummary } from "./OrderSummaryInterface";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { categoryList } from "../../Components/Links";
-import { useSelector } from "react-redux";
 import { propType } from "../Home/InterfaceHome";
 
 const OrderSummry = () => {
   const navigate = useNavigate();
   const [amount, setAmount] = useState(0);
-  const [data, setData] = useState<orderSummary[]>([]);
+  const [cartItemList, setCartItemList] = useState<orderSummary[]>([]);
   const fetchCartDatarelode = async () => {
     const cartData = await fetchCartDataValue();
     if (cartData !== undefined) {
@@ -26,25 +24,21 @@ const OrderSummry = () => {
     }
   };
   window.addEventListener("load", () => {
-    setData([]);
     fetchCartDatarelode();
   });
 
   useEffect(() => {
     fetchOrderHistory();
-    return () => {
-      setData([]);
-    };
   }, []);
-  
 
   const fetchOrderHistory = async () => {
     const orderHistory = await fetchOrderSummary();
+    setCartItemList([]);
     if (orderHistory !== undefined) {
       console.log(fetchOrderSummary());
       orderHistory.map((item) => {
         const data = item as orderSummary;
-        setData((arr) => [...arr, data]);
+        setCartItemList((arr) => [...arr, data]);
       });
     }
   };
@@ -57,13 +51,13 @@ const OrderSummry = () => {
       <div title="order-page">
         <h1>Your Orders</h1>
       </div>
-      {data.map((order) => (
+      {cartItemList.map((order) => (
         <>
           <div className="summary-div">
             <div className="top-div">
               <p>order</p>
-              <p>Amount  {order.Amount}</p>
-              <p>OrderId  {order.id}</p>
+              <p>Amount {order.Amount}</p>
+              <p>OrderId {order.id}</p>
             </div>
             <h3 className="status">SuccessFul</h3>
             <div className="middle-part">
@@ -72,7 +66,7 @@ const OrderSummry = () => {
               <div className="itemscroll">
                 {order.itemArray.map((item) => (
                   <div key={item.id}>
-                    <p>kkqwfma</p>
+                    <p>{item.Name}</p>
                     <button
                       onClick={() => {
                         navigateToProductPage(item.cate, item.id);
@@ -88,8 +82,7 @@ const OrderSummry = () => {
             <div className="achive">Achive Order</div>
           </div>
         </>
-      )
-      )}
+      ))}
     </OrderSummary>
   );
 };

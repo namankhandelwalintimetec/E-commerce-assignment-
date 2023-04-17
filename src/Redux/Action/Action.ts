@@ -107,3 +107,9 @@ export const resetOrderAmount = (value: number) => {
     type: "resetOrderAmount"
   }
 }
+
+export const emptyUserCart=()=>{
+  return {
+    type:"emptyCart"
+  }
+}

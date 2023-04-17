@@ -79,6 +79,18 @@ export const removeCart = async (userCart: propType[]) => {
   }
 };
 
+export const emptyCart = async () => {
+  try {
+    const usersub = doc(db, "Cart", `${localStorage.getItem("email")}`);
+    await updateDoc(usersub, {
+      cardData:[],
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+
 export const uplodeWishList = async (wishListData: infoDataType[]) => {
   try {
     const usersub = doc(db, "Cart", `${localStorage.getItem("email")}`);

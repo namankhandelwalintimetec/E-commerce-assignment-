@@ -10,7 +10,7 @@ import {
   resetCartValue,
   setOrderAmount,
 } from "../../Redux/Action/Action";
-import { fetchCartDataValue } from "../../Services/ServicesLayer";
+import { emptyCart, fetchCartDataValue } from "../../Services/ServicesLayer";
 
 const ShopCart = () => {
   const userCart: propType[] = useSelector(
@@ -108,10 +108,12 @@ const ShopCart = () => {
           <div className="border-div"></div>
           <button
             className="checkout-div"
+            
             onClick={() => {
               if (userCart.length >= 1) {
                 navigate("/checkout");
               }
+              emptyCart();
             }}
             data-testid="PlaceOrder"
           >
@@ -123,6 +125,7 @@ const ShopCart = () => {
               if (userCart.length >= 1) {
                 navigate("/orderSummary");
               }
+              
             }}
             data-testid="PlaceOrder"
           >

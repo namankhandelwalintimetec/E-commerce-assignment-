@@ -1,6 +1,8 @@
 import styled from "styled-components";
 
 export const NavStyle = styled.nav`
+  position:sticky;
+  top:0px;
   display: flex;
   align-items: center;
   height: 15vh;
@@ -9,6 +11,10 @@ export const NavStyle = styled.nav`
 
   .dropdown {
     display: none;
+  }
+  .navbaractive{
+    background:black;
+    color:white;
   }
 
   .logo {

@@ -135,13 +135,14 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   @media screen and (max-width: 667px) {
+    overflow:hidden;
     .signup {
      width: 70vw;
      height: 300px;
     }
 
     .size-cousoroul{
-     width:85vw;
+     width:100vw;
     }
 
     .main{
@@ -210,5 +211,8 @@ export const GlobalStyle = createGlobalStyle`
     list-style: none;
     margin-top:-14vh;
   }
+   @media screen and (max-width: 800px) {
+    overflow:hidden;
+   }
 }
 `;

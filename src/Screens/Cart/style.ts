@@ -100,15 +100,33 @@ background:#F1F3F6;
 	margin-left:-10vw;
 	margin-top:-5vh;
 	width:70vw;
-	height:50vh;
+	height:55vh;
 	top:8vh;
 	left:4vw;
 	
   }
   .ul{
-		display:flex;
-		gap:60vw
-		width:100vw;
+	display:flex;
+	gap:35vw;
+	width:100vw;
+	overflow:hidden;
 	}
+
+	.checkout-div{
+	background:black;
+	color:white;
+	border:none;
+	padding:2vh;
+	text-align:center;
+	width:35vw;
+	font-size:4vw;
+	margin-bottom:2vh;
+}
+  .basket-labels{
+	background:black;
+	color:white;
+	display:flex;
+	width:100%;
+}
  }
 `;

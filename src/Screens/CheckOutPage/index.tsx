@@ -6,7 +6,12 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { StateTypeCheckOut } from "./InterfaceCheckOut";
 import Notification from "../../Components/Notification";
-import { fetchCartDataValue, removeCart } from "../../Services/ServicesLayer";
+import {
+  emptyCart,
+  fetchCartDataValue,
+  removeCart,
+} from "../../Services/ServicesLayer";
+import { emptyUserCart } from "../../Redux/Action/Action";
 
 const CheckOut = () => {
   const navigate = useNavigate();
@@ -14,6 +19,7 @@ const CheckOut = () => {
   const [addresh, setAddresh] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [cardNumber, setCardNumber] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [amountValue, setAmount] = useState(0);
   const [cvv, setCvv] = useState("");
   const userCart = useSelector((state: StateTypeCheckOut) => state.userCart);
@@ -69,15 +75,16 @@ const CheckOut = () => {
   }, []);
 
   const bookOrder = async () => {
-    const pincodeRegExpression = /^\d{6}$/;
-    const phoneNumberRegExpression = /^\d{3}\d{3}\d{4}$/;
-    const cardReguExpression = /^4[0-9]{12}(?:[0-9]{3})?$/;
-    const cvvRegularExpression = /^[0-9]{3,4}$/;
+    const pincodeRegExpression = /^\d{5}$/;
+    const phoneNumberRegExpression = /^\d{9}$/;
+    const cardReguExpression = /^\d{15}$/;
+    const cvvRegularExpression = /^\d{2}$/;
     if (
       firstName === "" ||
       addresh === "" ||
       pincodeRegExpression.test(postalCode) ||
       postalCode === "" ||
+      phoneNumberRegExpression.test(phoneNumber) ||
       cardReguExpression.test(cardNumber)
     ) {
       showPopUp("warning", "Invalid Data", "warning", "show");
@@ -98,7 +105,8 @@ const CheckOut = () => {
         });
         showPopUp("success", "order Placed", "success", "show");
         navigate("/order/placed");
-        removeCart(userCart);
+        emptyCart();
+        emptyUserCart();
       } catch (error) {
         navigate("/order/fail");
       }
@@ -136,15 +144,15 @@ const CheckOut = () => {
                     }}
                     required
                   />
-                  <label htmlFor="fname">Full Name</label>
+                  <label htmlFor="fname">Phone Number</label>
                   <input
-                    type="text"
+                    type="number"
                     id="fname"
                     name="firstname"
                     placeholder="First name"
-                    value={firstName}
+                    value={phoneNumber}
                     onChange={(e) => {
-                      setFirstName(e.target.value);
+                      setPhoneNumber(e.target.value);
                     }}
                     required
                   />
