@@ -3,15 +3,17 @@ import returnicon from "../../Assets/Image/30days.png";
 import guarantee from "../../Assets/Image/gaurantee.jpg";
 
 const Footerpage = () => {
+
+  const scrollToTop=()=>{
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
   return (
     <Footerstyle data-testid="footer">
       <div className="footer">
         <div className="footer-to-top">
           <p
             className="center-text"
-            onClick={() => {
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            }}
+            onClick={scrollToTop}
           >
             Back To Top
           </p>

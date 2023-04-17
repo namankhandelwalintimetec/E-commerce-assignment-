@@ -3,7 +3,6 @@ import {
   screen,
   waitFor,
   fireEvent,
-  act,
 } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
 import Authentication from "../Screens/Authentication";
@@ -34,4 +33,5 @@ describe("Authentication component", () => {
     fireEvent.click(wishCard);
     expect(wishCard).toHaveTextContent("Sign up");
   });
+
 });

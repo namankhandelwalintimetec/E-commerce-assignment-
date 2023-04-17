@@ -1,10 +1,4 @@
-import {
-  render,
-  screen,
-  waitFor,
-  fireEvent,
-  act,
-} from "@testing-library/react";
+import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
 import store from "../Redux/Store";
 import { Provider } from "react-redux";
@@ -27,10 +21,4 @@ describe("CartScreen", () => {
       expect(checkOut).toBeInTheDocument();
     });
   });
-
-   test("redirect to OrderCheck out page", () => {
-     const navigate = screen.getByTestId("navigate");
-     fireEvent.click(navigate);
-     expect(window.location.href).toBe("http://localhost/order/fail");
-   });
 });

@@ -9,7 +9,7 @@ export interface infoDataType {
 }
 
 export interface propType {
-  idValue: string;
+  id: string;
   Name: string;
   image: string;
   price: string;
@@ -22,6 +22,7 @@ export interface propType {
 export interface StateTypeCart {
   CardData: infoDataType[];
   CardValue: number;
+  userCart: propType[];
 }
 
 export interface popUpBoxPropes {

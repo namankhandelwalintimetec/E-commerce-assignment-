@@ -7,6 +7,6 @@ import SingleProductDetail from './SingleProductDetail';
 import userCart from './UserCart';
 import userWishlist from "./UserWishlistReducer";
 import CardValue from './CartValue';
-
-const rootReducer = combineReducers({ userEmail, SerchText, setCategory, CardData, SingleProductDetail, userCart, userWishlist, CardValue });
+import Discount from "./Discount";
+const rootReducer = combineReducers({ userEmail, SerchText, setCategory, CardData, SingleProductDetail, userCart, userWishlist, CardValue, Discount });
 export default rootReducer;

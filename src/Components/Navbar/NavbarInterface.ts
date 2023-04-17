@@ -1,5 +1,5 @@
 export interface propType {
-  idValue: string;
+  id: string;
   Name: string;
   image: string;
   price: string;
@@ -19,6 +19,6 @@ export interface infoDataType {
 }
 export interface StateTypeNavbar {
   userCart: propType[];
-  userWishlist: propType[];
+  userWishlist: infoDataType[];
   userEmail: string;
 }

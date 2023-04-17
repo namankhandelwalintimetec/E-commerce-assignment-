@@ -1,44 +1,42 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { GrFormSubtract } from "react-icons/gr";
 import { GrFormAdd } from "react-icons/gr";
 import { useDispatch, useSelector } from "react-redux";
-import { removeCartItem, increseCartValue } from "../../Redux/Action/Action";
-import { StateTypeCart, propType, popUpBoxPropes } from "./CartInterface";
+import {
+  removeCartItem,
+  increseCartValue,
+  decreseCartQuantity,
+  decreseCartValue,
+} from "../../Redux/Action/Action";
+import { StateTypeCart, propType } from "./CartInterface";
 import { Cartstyle } from "./Cartstyle";
 import { cartUpdate } from "../../Redux/Action/Action";
-import Notification from "../NotificationPopUp";
+import Notification from "../Notification";
+import { removeCart, uplodeCart } from "../../Services/ServicesLayer";
 
 const Cart = ({
   Name,
   price,
   desc,
   rating,
-  idValue,
+  id,
   cate,
   image,
   qua,
 }: propType) => {
-  const productdata: any = useSelector((state: StateTypeCart) => state.CardData);
-  const cardValue = useSelector((state: StateTypeCart) => state.CardValue);
-  const [popUp, setPopUp] = useState({
+  const productDetail: any = useSelector(
+    (state: StateTypeCart) => state.CardData
+  );
+  const userCart = useSelector((state: StateTypeCart) => state.userCart);
+  const [popUpNotification, setPopUpNotification] = useState({
     title: "success",
     message: "Added in WishList",
     type: "success",
     class: "hide",
   });
-  const [quantity, setQuantity] = useState(Number(qua));
-  const [cost, setCost] = useState(Number(price));
+  const [productQuantity, setQuantity] = useState(Number(qua));
+  const [productCost, setCost] = useState(Number(price));
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    setQuantity(Number(qua));
-    setCost(quantity * Number(price));
-    if (quantity === 1) {
-      dispatch(increseCartValue(cardValue + cost));
-    } else {
-      dispatch(increseCartValue(cardValue + cost - Number(price)));
-    }
-  }, []);
 
   const showPopUp = (
     title: string,
@@ -46,14 +44,14 @@ const Cart = ({
     type: string,
     classValue: string
   ) => {
-    setPopUp({
+    setPopUpNotification({
       title: title,
       message: message,
       type: type,
       class: classValue,
     });
     setTimeout(() => {
-      setPopUp({
+      setPopUpNotification({
         title: title,
         message: message,
         type: type,
@@ -63,46 +61,49 @@ const Cart = ({
   };
 
   const quantityIncrease = () => {
-    if (quantity < 5) {
-      setQuantity(quantity + 1);
-      setCost((quantity + 1) * Number(price));
-      dispatch(increseCartValue(cardValue + Number(price)));
-      dispatch(
-        cartUpdate({ idValue, Name, image, rating, desc, price, qua, cate })
-      );
+    if (productQuantity < 5) {
+      setQuantity(productQuantity + 1);
+      setCost((productQuantity + 1) * Number(price));
+      dispatch(increseCartValue(Number(price)));
+      dispatch(cartUpdate({ id, Name, image, rating, desc, price, qua, cate }));
       showPopUp("success", "Quantity Increase", "success", "show");
+      uplodeCart(userCart);
+      removeCart(userCart);
     } else {
-      setQuantity(5);
       showPopUp("success", "Quantity Max", "success", "show");
     }
   };
 
   const quantityDecsease = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
-      setCost((quantity - 1) * Number(price));
-      dispatch(increseCartValue(cardValue - Number(price)));
+    if (productQuantity > 1) {
+      setQuantity(productQuantity - 1);
+      setCost((productQuantity - 1) * Number(price));
+      dispatch(decreseCartValue(Number(price)));
+      qua = String(productQuantity);
       dispatch(
-        cartUpdate({ idValue, Name, image, rating, desc, price, qua, cate })
+        decreseCartQuantity({ id, Name, image, rating, desc, price, qua, cate })
       );
       showPopUp("success", "Quantity Decrease", "success", "show");
+      uplodeCart(userCart);
+      removeCart(userCart);
     }
     showPopUp("success", "Quantity Negative", "success", "show");
   };
 
-  const removeItem = () => {
-    dispatch(removeCartItem(productdata[Number(idValue) - 1]));
-    dispatch(increseCartValue(cardValue - quantity * Number(price)));
+  const removeItem = async () => {
+    dispatch(removeCartItem(productDetail[Number(id)]));
+    dispatch(decreseCartValue(productQuantity * Number(price)));
+    removeCart(userCart);
     showPopUp("success", "Removed From Cart", "success", "show");
   };
 
   return (
     <Cartstyle>
       <Notification
-        title={popUp.title}
-        message={popUp.message}
-        type={popUp.type}
-        classValue={popUp.class}
+        title={popUpNotification.title}
+        message={popUpNotification.message}
+        type={popUpNotification.type}
+        classValue={popUpNotification.class}
       />
       <div data-testid="cart-card">
         <div className="cart-card">
@@ -127,7 +128,7 @@ const Cart = ({
               data-testid="removeButton"
             />
             <div className="box-quantity" data-testid="quantity-box">
-              {quantity}
+              {productQuantity}
             </div>
             <GrFormAdd onClick={quantityIncrease} data-testid="addButton" />
           </div>
@@ -140,7 +141,7 @@ const Cart = ({
             <p>Delivery in 2-3 business days Checkout ...</p>
           </div>
           <div className="sub-total">
-            <p>Rs.{cost}</p>
+            <p>Rs.{productCost}</p>
           </div>
         </div>
         <div className="last-div">

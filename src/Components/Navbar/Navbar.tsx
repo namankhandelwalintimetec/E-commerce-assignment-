@@ -8,43 +8,50 @@ import { auth } from "../../Config/Config";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setProductType, setText } from "../../Redux/Action/Action";
-import { propType } from "../../Redux/Reducer/UserCart";
-import {
-  uplodeCartDataValue,
-  uplodeWishListDataValue,
-} from "../../Services/ServicesLayer";
 import { StateTypeNavbar } from "./NavbarInterface";
+import Notification from "../Notification";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const [serchItem, setSetchItem] = useState("");
-  const userCard = useSelector((state: StateTypeNavbar) => state.userCart);
-  const userWishlist = useSelector(
-    (state: StateTypeNavbar) => state.userWishlist
+  const [searchItem, setSearchItem] = useState("");
+  const userCartDetails = useSelector(
+    (state: StateTypeNavbar) => state.userCart
   );
   const userEmail = useSelector((state: StateTypeNavbar) => state.userEmail);
+  const [popUpNotification, setPopUpNotification] = useState({
+    title: "success",
+    message: "Added in WishList",
+    type: "success",
+    class: "hide",
+  });
+
   const history = useNavigate();
   const dispatch = useDispatch();
+  const showPopUp = (
+    title: string,
+    message: string,
+    type: string,
+    classValue: string
+  ) => {
+    setPopUpNotification({
+      title: title,
+      message: message,
+      type: type,
+      class: classValue,
+    });
+    setTimeout(() => {
+      setPopUpNotification({
+        title: title,
+        message: message,
+        type: type,
+        class: "hide",
+      });
+    }, 1000);
+  };
 
-  const navigateCate = (value: string) => {
+  const navigateCategory = (value: string) => {
+    dispatch(setProductType(value));
     navigate(`/product/${value}`);
-  };
-
-  const uplodeCartData = async (item: propType) => {
-    uplodeCartDataValue(item);
-  };
-
-  const uplodeWishListData = async (item: propType) => {
-    uplodeWishListDataValue(item);
-  };
-
-  const uplodeData = () => {
-    userCard.map((item) => {
-      uplodeCartData(item);
-    });
-    userWishlist.map((item: propType) => {
-      uplodeWishListData(item);
-    });
   };
 
   const eraseLocalStorage = () => {
@@ -53,19 +60,26 @@ const Navbar = () => {
   };
 
   const handleLogout = async () => {
-    uplodeData();
+    eraseLocalStorage();
     auth.signOut().then(() => {
       history("/login");
     });
-    eraseLocalStorage();
   };
 
   const setSerchTextvalue = () => {
-    dispatch(setText(serchItem));
+    dispatch(setText(searchItem));
+    setSearchItem("");
   };
 
   return (
     <>
+      <Notification
+        title={popUpNotification.title}
+        message={popUpNotification.message}
+        type={popUpNotification.type}
+        classValue={popUpNotification.class}
+        data-testid="notify"
+      />
       <NavStyle data-testid="Navbar">
         <Link to="/" className="logo" data-testid="logoNav">
           Sopshy
@@ -85,8 +99,7 @@ const Navbar = () => {
           <li
             className="li"
             onClick={() => {
-              dispatch(setProductType("men"));
-              navigateCate("men");
+              navigateCategory("men");
             }}
             data-testid="menProductNavigation"
           >
@@ -95,8 +108,7 @@ const Navbar = () => {
           <li
             className="li"
             onClick={() => {
-              dispatch(setProductType("female"));
-              navigateCate("female");
+              navigateCategory("female");
             }}
             data-testid="femaleProductNavigation"
           >
@@ -105,8 +117,7 @@ const Navbar = () => {
           <li
             className="li"
             onClick={() => {
-              dispatch(setProductType("electronic"));
-              navigateCate("electronic");
+              navigateCategory("electronic");
             }}
             data-testid="electronicProductNavigation"
           >
@@ -114,12 +125,13 @@ const Navbar = () => {
           </li>
         </ul>
         <input
+          data-testid="search"
           className="search"
           placeholder="Search Your Products"
           onChange={(e) => {
-            setSetchItem(e.target.value);
+            setSearchItem(e.target.value);
           }}
-          value={serchItem}
+          value={searchItem}
         />
         <p className="serch-icon" onClick={setSerchTextvalue}>
           <FaSearch />
@@ -144,11 +156,13 @@ const Navbar = () => {
               />
             </Link>
           </li>
+          <p className="hide">{localStorage.getItem("email")}</p>
           <li className="profile-inside">
             <Link to="/wishlist">
               <span
                 className="material-symbols-outlined color"
                 data-testid="wishlistNav"
+                onClick={() => navigateCategory("Wishlist")}
               >
                 favorite
               </span>
@@ -160,27 +174,24 @@ const Navbar = () => {
               <span
                 className="material-symbols-outlined color"
                 data-testid="CartNav"
+                onClick={() => navigateCategory("cart")}
               >
                 shopping_cart
               </span>
-              <span className="number">
-                {userCard.length ? userCard.length : ""}
+              <span className="card-count">
+                {localStorage.getItem("email") ? userCartDetails.length : " "}
               </span>
             </Link>
           </li>
         </ul>
         <ul className="dropdown">
           <li className="text">
-            <BiUserCircle
-              size={"1.3em"}
-              className={localStorage.getItem("email") ? "show color" : "hide "}
-            />
+            <BiUserCircle size={"1.3em"} className="show" />
           </li>
           <div className="dropdown-content">
             <li className="list-inside">
               <p
                 onClick={() => {
-                  dispatch(setProductType(""));
                   navigate("/");
                 }}
               >
@@ -190,8 +201,7 @@ const Navbar = () => {
             <li
               className="li"
               onClick={() => {
-                dispatch(setProductType("men"));
-                navigateCate("men");
+                navigateCategory("men");
               }}
             >
               Men
@@ -199,8 +209,7 @@ const Navbar = () => {
             <li
               className="li"
               onClick={() => {
-                dispatch(setProductType("female"));
-                navigateCate("female");
+                navigateCategory("female");
               }}
             >
               Women
@@ -208,12 +217,12 @@ const Navbar = () => {
             <li
               className="li"
               onClick={() => {
-                dispatch(setProductType("electronic"));
-                navigateCate("electronic");
+                navigateCategory("electronic");
               }}
             >
               Electronic
             </li>
+
             <li className="profile-inside">
               <Link to="/login" onClick={handleLogout}>
                 <BiLogInCircle
@@ -245,7 +254,7 @@ const Navbar = () => {
                   shopping_cart
                 </span>
                 <span className="number">
-                  {userCard.length ? userCard.length : ""}
+                  {userCartDetails.length ? userCartDetails.length : ""}
                 </span>
               </Link>
             </li>

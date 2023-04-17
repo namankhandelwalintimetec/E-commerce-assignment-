@@ -1,35 +1,39 @@
-import {
-  render,
-  screen,
-  waitFor,
-  fireEvent,
-  act,
-} from "@testing-library/react";
-
+import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
 import store from "../Redux/Store";
 import { Provider } from "react-redux";
-import { propType } from "../Components/Cart/CartInterface";
-import Cart from "../Components/Cart/Cart";
 import ProductCard from "../Components/ProductCard/Card";
-import ProductCategoryPage from "../Screens/ProductCatePage";
 import { productDataType } from "../Components/ProductCard/CardInterface";
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 describe("CartScreen", () => {
-	const cartItems: productDataType = {
+  const ProductItems: productDataType = {
     id: "1",
     Name: "Product 1",
     price: "100",
     cate: "product",
-    image: "dummy.jpg",
+    image: "sample.jpg",
     dec: "Description 1",
     rating: "4",
   };
   beforeEach(() => {
+    // useParams.mockReturnValue({ id: "123", cate: "electronics" });
+    // useSelector.mockReturnValue([
+    //   {
+    //     id: "123",
+    //     Name: "Test Product",
+    //     cate: "electronics",
+    //     dec: "Test description",
+    //     image: "test.jpg",
+    //     price: "10.00",
+    //     rating: "4",
+    //   },
+    // ]);
     render(
       <Provider store={store}>
         <Router>
-          <ProductCard {...cartItems}/>
+          <ProductCard {...ProductItems} />
         </Router>
       </Provider>
     );
@@ -45,8 +49,11 @@ describe("CartScreen", () => {
   test("redirect to OrderCheck out page", () => {
     const imagenav = screen.getByTestId("imagenav");
     fireEvent.click(imagenav);
-    expect(window.location.href).toBe(`http://localhost/product/${cartItems.cate}/${cartItems.id}`);
-  });   
-  
+    expect(window.location.href).toBe(
+      `http://localhost/product/${ProductItems.cate}/${ProductItems.id}`
+    );
+  });
+  it("renders product details", () => {
+    expect(screen.getByText("Product 1")).toBeInTheDocument();
+  });
 });
-   

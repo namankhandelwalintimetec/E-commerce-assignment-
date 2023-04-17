@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const Footerstyle = styled.footer`
+  width: 100vw;
   .footer-to-top {
     background: #485769;
     text-aligh: center;
@@ -9,8 +10,8 @@ export const Footerstyle = styled.footer`
     font-weight: 700;
     font-size: larger;
     height: 10vh;
-    width: 99vw;
-    padding: 1vh;
+    width: 100vw;
+    padding: 2vh;
     font-size: 2vh;
   }
   .botton-footer {

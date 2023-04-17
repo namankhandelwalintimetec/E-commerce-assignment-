@@ -13,10 +13,18 @@ const initialState: infoDataType[] = [
   },
 ];
 
-const cardData = (state = initialState, action: cartDataActionType) => {
+const cardData = (state =initialState, action: cartDataActionType) => {
   switch (action.type) {
-    case "setcarddata":
-      return action.payload;
+    case "setProductDetail":
+      const index = state.findIndex(
+        (product) => product.id === action.payload.id
+      );
+      if (index === -1) {
+        return [...state, action.payload];
+      } else {
+        const newState = [...state];
+        return newState;
+      }
     default:
       return state;
   }

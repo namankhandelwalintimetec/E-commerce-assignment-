@@ -16,15 +16,39 @@ import CheckOut from "../../Screens/CheckOutPage";
 import Navbar from "../Navbar/Navbar";
 import OrderFail from "../../Screens/OrderFail";
 import OrderPlace from "../../Screens/OrderPlace";
+import { increseCartValue } from "../../Redux/Action/Action";
 import {
   fetchCartDataValue,
   fetchData,
   fetchWishListValue,
+  uplodeCart,
+  uplodeWishList,
 } from "../../Services/ServicesLayer";
 import { theme } from "../../Theame";
+import { StateTypeCartPage } from "../../Screens/Cart/InterfaceCart";
+import EmptyWishListPage from "../EmptyWishList/EmptyWishList";
+import EmptyCartPage from "../EmptyCart/EmptyCartPage";
+import OrderSummry from "../../Screens/OrderSummaryPage/index";
+import { MainCardStateType } from "./MainCardInterface";
+import { PageNotFoundTag } from "../../Screens/PageNotFound/Style";
+import PageNotFound from "../../Screens/PageNotFound";
 
 const Main = () => {
-  const [productDetail, setProductDetail] = useState<infoDataType[]>([]);
+  const [productDetail, setProductDetail] = useState<infoDataType[]>([
+    {
+      id: "",
+      Name: "",
+      cate: "",
+      dec: "",
+      image: "",
+      price: "",
+      rating: "",
+    },
+  ]);
+  const userWishlist = useSelector(
+    (state: MainCardStateType) => state.userWishlist
+  );
+  const userCart = useSelector((state: MainCardStateType) => state.userCart);
   const dispatch = useDispatch();
 
   const fetchProductData = async () => {
@@ -32,10 +56,19 @@ const Main = () => {
     if (productData !== undefined) {
       productData.map((item) => {
         const data = item as infoDataType;
+        dispatch(setProductData(data));
         setProductDetail((arr) => [...arr, data]);
       });
     }
   };
+
+  useEffect(() => {
+    uplodeCart(userCart);
+  }, [userCart]);
+
+  useEffect(() => {
+    uplodeWishList(userWishlist);
+  }, [userWishlist]);
 
   const fetchCartData = async () => {
     const cartData = await fetchCartDataValue();
@@ -57,12 +90,7 @@ const Main = () => {
     }
   };
 
-  setTimeout(() => {
-    dispatch(setProductData(productDetail));
-  }, 5000);
-
   window.addEventListener("load", () => {
-    setProductDetail([]);
     fetchProductData();
     if (localStorage.getItem("email") != null) {
       fetchWishList();
@@ -70,10 +98,17 @@ const Main = () => {
     }
   });
 
+  window.addEventListener("load", () => {
+    userCart.map((item: propType) => {
+      dispatch(increseCartValue(Number(item.price) * Number(item.qua)));
+    });
+  });
+
   useEffect(() => {
-    fetchCartData();
+    fetchProductData();
     if (localStorage.getItem("email") != null) {
       fetchWishList();
+      fetchCartData();
     }
   }, []);
 
@@ -92,6 +127,10 @@ const Main = () => {
           <Route path="/checkout" element={<CheckOut />} />
           <Route path="/order/placed" element={<OrderPlace />} />
           <Route path="/order/fail" element={<OrderFail />} />
+          <Route path="/EmptyWishlist" element={<EmptyWishListPage />} />
+          <Route path="/EmptyCart" element={<EmptyCartPage />} />
+          <Route path="/orderSummary" element={<OrderSummry />} />
+          <Route path="*" element={<PageNotFound/>} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

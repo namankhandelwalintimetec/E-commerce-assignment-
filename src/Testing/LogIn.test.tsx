@@ -2,7 +2,6 @@ import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { useDispatch } from "react-redux";
 import Login from "../Components/LogIn/Login";
-import userEvent from "@testing-library/user-event";
 
 jest.mock("react-redux", () => ({
   useDispatch: jest.fn(),

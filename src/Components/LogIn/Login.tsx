@@ -1,11 +1,9 @@
 import { useState } from "react";
 import InputField from "../Atoms/InputField";
 import { authenticationPropType } from "./LoginInterface";
-import Notification from "../NotificationPopUp";
 
 const Login = ({
   toggle,
-  errorMessage,
   handleLogIn,
   setUserCredential,
 }: authenticationPropType) => {

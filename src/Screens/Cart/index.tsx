@@ -1,23 +1,57 @@
 import Cart from "../../Components/Cart/Cart";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { propType } from "../../Redux/Reducer/UserCart";
 import { useNavigate } from "react-router-dom";
 import { CartStyle } from "./style";
 import { StateTypeCartPage } from "./InterfaceCart";
+import {
+  increseCartValue,
+  resetCartValue,
+  setOrderAmount,
+} from "../../Redux/Action/Action";
+import { fetchCartDataValue } from "../../Services/ServicesLayer";
 
 const ShopCart = () => {
   const userCart: propType[] = useSelector(
     (state: StateTypeCartPage) => state.userCart
   );
   const cardValue = useSelector((state: StateTypeCartPage) => state.CardValue);
+  let discount = Math.floor((Math.random() * cardValue) / 10) + 1;
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (localStorage.getItem("email") == null) {
-      navigate("/");
+    if (localStorage.getItem("email") === null) {
+      navigate("/EmptyCart");
     }
+    if (userCart.length == 0) {
+      dispatch(resetCartValue(cardValue));
+    }
+    userCart.map((item) => {
+      dispatch(increseCartValue(Number(item.price) * Number(item.qua)));
+    });
+    return () => {
+      dispatch(resetCartValue(cardValue));
+    };
   }, []);
+
+  useEffect(() => {
+    dispatch(setOrderAmount(discount));
+  }, [discount]);
+
+  const fetchCartDatarelode = async () => {
+    const cartData = await fetchCartDataValue();
+    if (cartData !== undefined) {
+      cartData.map((item) => {
+        const data = item as propType;
+        dispatch(increseCartValue((Number(data.price) * Number(data.qua)) / 2));
+      });
+    }
+  };
+  window.addEventListener("load", () => {
+    fetchCartDatarelode();
+  });
 
   return (
     <CartStyle>
@@ -31,7 +65,7 @@ const ShopCart = () => {
       </div>
       <div className="basket">
         <div className="display-cart">
-          <div className="product-div">
+          <div className="product-div" data-testid="product-card">
             {userCart.map((item) => {
               return (
                 <Cart
@@ -40,7 +74,7 @@ const ShopCart = () => {
                   image={item.image}
                   price={item.price}
                   rating={item.rating}
-                  idValue={item.idValue}
+                  id={item.id}
                   cate={item.cate}
                   qua={item.qua}
                 />
@@ -52,12 +86,13 @@ const ShopCart = () => {
           <p className="cart-header">Price Details</p>
           <div className="border-div"></div>
           <div className="price-main">
-            <p>Price{3}</p>
+            <p>Price</p>
             <p>{cardValue}</p>
           </div>
           <div className="price-main-1">
             <p>Discount</p>
-            <p>900</p>
+            {cardValue > discount && <p>{discount}</p>}
+            {cardValue < discount && <p>0</p>}
           </div>
           <div className="price-main-2">
             <p>Delivery Charge</p>
@@ -66,17 +101,32 @@ const ShopCart = () => {
           <div className="border-div"></div>
           <div className="price-main-3">
             <p>Total Amount</p>
-            <p data-testid="empty-cart-message">{cardValue}</p>
+            <p data-testid="empty-cart-message">
+              {cardValue > discount ? cardValue - discount : cardValue}
+            </p>
           </div>
           <div className="border-div"></div>
           <button
             className="checkout-div"
             onClick={() => {
-              navigate("/checkout");
+              if (userCart.length >= 1) {
+                navigate("/checkout");
+              }
             }}
             data-testid="PlaceOrder"
           >
             Place Order
+          </button>
+          <button
+            className="checkout-div"
+            onClick={() => {
+              if (userCart.length >= 1) {
+                navigate("/orderSummary");
+              }
+            }}
+            data-testid="PlaceOrder"
+          >
+            Order history
           </button>
         </div>
       </div>

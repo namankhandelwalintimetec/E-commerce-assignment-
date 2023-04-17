@@ -1,6 +1,6 @@
 import ClipLoader from "react-spinners/ClipLoader";
 import { CSSProperties } from "react";
-import { SpinnerProps } from "../Interfaces";
+import { SpinnerProps } from "./SpinnerInterface";
 
 const Override: CSSProperties = {
   display: "block",

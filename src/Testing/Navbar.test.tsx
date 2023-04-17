@@ -4,6 +4,7 @@ import {
   waitFor,
   fireEvent,
   act,
+  queryByPlaceholderText,
 } from "@testing-library/react";
 
 import { BrowserRouter as Router } from "react-router-dom";
@@ -24,9 +25,9 @@ describe("CartScreen", () => {
   });
 
   test("renders the cart Page component", async () => {
-    const CartPageContainer = screen.getByTestId("Navbar");
+    const navContainer = screen.getByTestId("Navbar");
     await waitFor(() => {
-      expect(CartPageContainer).toBeInTheDocument();
+      expect(navContainer).toBeInTheDocument();
     });
   });
   test("redirect to Home out page", () => {
@@ -48,7 +49,7 @@ describe("CartScreen", () => {
     fireEvent.click(electronicProductNavigation);
     expect(window.location.href).toBe("http://localhost/product/electronic");
   });
-  
+
   test("redirect to electronicProduct  page", () => {
     const loginButton = screen.getByTestId("loginButton");
     fireEvent.click(loginButton);
@@ -59,14 +60,19 @@ describe("CartScreen", () => {
     fireEvent.click(wishlistNav);
     expect(window.location.href).toBe("http://localhost/wishlist");
   });
-   test("redirect to electronicProduct  page", () => {
-     const CartNav = screen.getByTestId("CartNav");
-     fireEvent.click(CartNav);
-     expect(window.location.href).toBe("http://localhost/Cart");
-   });
-   test("redirect to electronicProduct  page", () => {
-     const logoNav = screen.getByTestId("logoNav");
-     fireEvent.click(logoNav);
-     expect(window.location.href).toBe("http://localhost/");
-   });
-});  
+  test("redirect to electronicProduct  page", () => {
+    const CartNav = screen.getByTestId("CartNav");
+    fireEvent.click(CartNav);
+    expect(window.location.href).toBe("http://localhost/Cart");
+  });
+  test("redirect to electronicProduct  page", () => {
+    const logoNav = screen.getByTestId("logoNav");
+    fireEvent.click(logoNav);
+    expect(window.location.href).toBe("http://localhost/");
+  });
+
+  test("",()=>{
+    const searchInput = screen.getByTestId("search");
+    fireEvent.change(searchInput, { target: { value: "test" } });
+  })
+});

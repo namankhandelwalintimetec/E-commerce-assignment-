@@ -1,20 +1,19 @@
 import serchText from "../Redux/Reducer/SerchText";
 
-describe('serchText reducer', () => {
-
-  it('should handle SetText action', () => {
+describe("serchText reducer", () => {
+  it("should handle SetText action", () => {
     const action = {
-      type: 'SetText',
-      payload: 'example'
+      type: "SetText",
+      payload: "example",
     };
-    expect(serchText('', action)).toEqual('example');
+    expect(serchText("", action)).toEqual("example");
   });
 
-  it('should not modify the state for unknown action types', () => {
+  it("should not modify the state for unknown action types", () => {
     const action = {
-      type: 'unknown',
-      payload: 'example'
+      type: "unknown",
+      payload: "example",
     };
-    expect(serchText('initial state', action)).toEqual('initial state');
+    expect(serchText("initial state", action)).toEqual("initial state");
   });
 });

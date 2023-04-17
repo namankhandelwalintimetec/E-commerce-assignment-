@@ -3,9 +3,6 @@ import { StateTypeWishList, infoDataType } from "./InterfaceWishList";
 import WishlistCard from "../../Components/WishListCard/WishListCard";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { collection, doc, getDocs } from "@firebase/firestore";
-import { setWishlist } from "../../Redux/Action/Action";
-import { db } from "../../Config/Config";
 import { useState } from "react";
 
 const Wishlist = () => {
@@ -18,30 +15,9 @@ const Wishlist = () => {
 
   useEffect(() => {
     if (localStorage.getItem("email") == null) {
-      navigate("/");
+      navigate("/EmptyWishlist");
     }
   }, []);
-
-  const fetchData = async () => {
-    try {
-      const dataSet = collection(
-        doc(db, "Cart", `${localStorage.getItem("email")}`),
-        "wishList"
-      );
-      const querySnapshot = await getDocs(dataSet);
-      querySnapshot.forEach((doc) => {
-        const data = doc.data() as infoDataType;
-        dispatch(setWishlist(data));
-        setData((arr) => [...arr, data]);
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  window.addEventListener("load", () => {
-    fetchData();
-  });
 
   return (
     <>

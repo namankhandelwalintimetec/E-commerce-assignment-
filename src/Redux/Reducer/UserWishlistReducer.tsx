@@ -32,8 +32,8 @@ const userWishlist = (
         return newState;
       }
     case "removeWishlist":
-      const productId = String(Number(action.payload)+1);
-      return state.filter((product) => product.id !==productId);
+      const productId = Number(action.payload)+1;
+      return state.filter((product) => Number(product.id) !==productId);
     default:
       return state;
   }

@@ -4,17 +4,18 @@ import { useParams } from "react-router-dom";
 import {
   infoDataType,
   productDescriptioType,
+  singleProductCardStateType,
 } from "./InterfaceSingleProductPage";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { cartUpdate } from "../../Redux/Action/Action";
+import { setUserCart } from "../../Redux/Action/Action";
 import { setWishlist } from "../../Redux/Action/Action";
 import { useCallback } from "react";
 import { increseCartValue } from "../../Redux/Action/Action";
-import Notification from "../NotificationPopUp";
+import Notification from "../Notification";
 import Carousel from "react-bootstrap/Carousel";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useNavigate } from "react-router-dom";
+import { uplodeCart, uplodeWishList } from "../../Services/ServicesLayer";
 
 const SingleProductCard = ({
   Name,
@@ -23,9 +24,8 @@ const SingleProductCard = ({
   desc,
   price,
 }: productDescriptioType) => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [popUp, setPopUp] = useState({
+  const [popUpNotification, setPopUpNotification] = useState({
     title: "success",
     message: "Added in WishList",
     type: "success",
@@ -36,17 +36,34 @@ const SingleProductCard = ({
   const productdata = useSelector((state: any) => state.CardData);
   const userdata = useSelector((state: any) => state.SingleProductDetail);
   const userWishlist: infoDataType[] = useSelector(
-    (state: any) => state.userWishlist
+    (state: singleProductCardStateType) => state.userWishlist
   );
-  const cartValue = useSelector((state: any) => state.CardValue);
-  const userCart = useSelector((state: any) => state.userCart);
+  const cartValue = useSelector(
+    (state: singleProductCardStateType) => state.CardValue
+  );
+  const userCart = useSelector(
+    (state: singleProductCardStateType) => state.userCart
+  );
+  let idValue: string;
 
-  useEffect(() => {
+  const checkWishListStatus = () => {
     const index = userWishlist.findIndex(
-      (product) => product.id == String(Number(id))
+      (product) => product.id === String(Number(id))
     );
     if (index === -1) {
       setAddWishList(true);
+    }
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToTop();
+    checkWishListStatus();
+    if (id !== undefined) {
+      idValue = id;
     }
   }, [userCart]);
 
@@ -56,7 +73,7 @@ const SingleProductCard = ({
     type: string,
     classValue: string
   ) => {
-    setPopUp({
+    setPopUpNotification({
       title: title,
       message: message,
       type: type,
@@ -72,7 +89,7 @@ const SingleProductCard = ({
   ) => {
     setPopUpBoxProperty(title, message, type, classValue);
     setTimeout(() => {
-      setPopUpBoxProperty("success", "Added in WishList", "success", "hide");
+      setPopUpBoxProperty("success", "", "success", "hide");
     }, 1000);
   };
 
@@ -81,13 +98,18 @@ const SingleProductCard = ({
   >(() => {
     if (localStorage.getItem("email") != null) {
       const qua = "1";
-      const idValue: string = productdata[Number(id)].id;
+      let id = productdata[Number(idValue)].id;
       const cate = productdata[Number(id)].cate;
+      const desc = productdata[Number(id)].desc;
       dispatch(
-        cartUpdate({ idValue, Name, image, rating, desc, price, qua, cate })
+        setUserCart({ id, Name, image, rating, desc, price, qua, cate })
       );
       dispatch(increseCartValue(cartValue + Number(price)));
       showPopUp("success", "Added to Card", "success", "show");
+      setTimeout(() => {
+        uplodeCart(userCart);
+      }, 3000);
+      uplodeCart(userCart);
     } else {
       showPopUp("warning", "First Log in", "warning", "show");
     }
@@ -97,9 +119,10 @@ const SingleProductCard = ({
     React.MouseEventHandler<HTMLButtonElement>
   >(() => {
     if (localStorage.getItem("email") != null) {
-      dispatch(setWishlist(productdata[Number(id) - 1]));
+      dispatch(setWishlist(productdata[Number(id)]));
       setAddWishList(true);
       showPopUp("success", "Added in WishList", "success", "show");
+      uplodeWishList(userWishlist);
     } else {
       showPopUp("warning", "First Log in", "warning", "show");
     }
@@ -124,35 +147,49 @@ const SingleProductCard = ({
               <img className="product-image-style" src={image} />
             </Carousel.Item>
           </Carousel>
-          <button className="buy-button" onClick={saveInCart}>
+          <button
+            className="buy-button"
+            onClick={saveInCart}
+            data-testid="buynow"
+          >
             Buy now
           </button>
           {addWishList && (
-            <button className="wishlist-button" onClick={saveInWishlist}>
+            <button
+              className="wishlist-button"
+              onClick={saveInWishlist}
+              data-testid="wishlistbutton"
+            >
               Wishlist
             </button>
           )}
           {!addWishList && (
-            <button className="wishlist-button green" onClick={saveInWishlist}>
-              Added
-            </button>
+            <button className="wishlist-button green">Added</button>
           )}
           <Notification
-            title={popUp.title}
-            message={popUp.message}
-            type={popUp.type}
-            classValue={popUp.class}
+            title={popUpNotification.title}
+            message={popUpNotification.message}
+            type={popUpNotification.type}
+            classValue={popUpNotification.class}
           />
         </div>
-        <div className="product-detail-div">
-          <p>{Name}</p>
-          <div className="flex">
-            <p className="rating">⭐{rating}</p>
-            {/* <p> 990 comments</p> */}
-          </div>
-          <p>Extra 10% off </p>
-          <p className="price-item">$ {price}</p>
 
+        <div className="product-detail-div" data-testid="singleProduct">
+          <h3 data-testid="product-name" className="product-name">
+            {Name}
+          </h3>
+          <div className="flex border-rating">
+            <p className="rating">{rating}⭐ | 4K Rating</p>
+            <p className="Off">Extra 10% off </p>
+          </div>
+          <div className="border"></div>
+
+          <div className="flex">
+            <p className="price-item">₹ {price}</p>
+            <p className="mrp"> MRP ₹{price} </p>
+            <p className="offer"> (55% off)</p>
+          </div>
+          <p className="tax-bar">inclusive of all taxes</p>
           <p className="offer-tag">offer valid</p>
           <ul className="offer-list">
             <li className="flex">
@@ -176,22 +213,18 @@ const SingleProductCard = ({
               india
             </li>
           </ul>
-
           <div className="flex">
-            <p>Delivery</p>
+            <p className="font-weight">Delivery</p>
             <input
               className="input-div"
               placeholder="Check Your pincode"
+              data-testid="pincode"
             ></input>
-            <button>check</button>
+            <button className="check-button">check</button>
           </div>
           <div className="description-div">
             <p>Description-</p>
-            <span>
-              {desc}
-              {desc}
-              {desc}
-            </span>
+            <span>{desc}</span>
           </div>
         </div>
       </ProductStyle>

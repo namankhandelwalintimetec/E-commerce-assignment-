@@ -7,16 +7,33 @@ export const ProductCardStyle = styled.div`
     font-weight: 500;
     width: 45vh;
     border-radius: 10px;
-    padding: 1%;
+    padding: 1vh;
     font-size: 1em;
     margin: auto;
     text-align: center;
     border: none;
+    
+  }
+  .favicon-cart{
+    width: 8%;
+    height: 8%;
+    position: relative;
+    bottom: -49vh;
+    right: 8vw;
+  }
+
+  .favicon-cart-image{
+    width: 8%;
+    height: 8%;
+    position: relative;
+    bottom: -48vh;
+    right: 8vw;
   }
 
   .card-product {
-    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
-      rgba(0, 0, 0, 0.22) 0px 15px 12px;
+    // box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
+    //   rgba(0, 0, 0, 0.22) 0px 15px 12px;
+    box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
   }
 
   .card-content {
@@ -107,7 +124,7 @@ export const ProductCardStyle = styled.div`
     height: 8%;
     position: relative;
     top: 1vh;
-    left: 8vw;
+    left: 9vw;
     opacity: 0.8;
   }
 

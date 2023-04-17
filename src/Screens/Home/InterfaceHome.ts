@@ -8,7 +8,7 @@ export interface infoDataType {
   rating: string;
 }
 export interface propType {
-  idValue: string;
+  id: string;
   Name: string;
   image: string;
   price: string;

@@ -1,71 +1,116 @@
-import { collection, setDoc } from "@firebase/firestore";
+import {
+  arrayRemove,
+  arrayUnion,
+  collection,
+  setDoc,
+  updateDoc,
+} from "@firebase/firestore";
 import { db } from "../Config/Config";
-import { getDocs, doc } from "@firebase/firestore";
+import { getDocs, doc, getDoc } from "@firebase/firestore";
 import { propType } from "../Screens/Home/InterfaceHome";
+import { infoDataType, propType1 } from "../Components/Interfaces";
+import { OrderSummary } from "../Screens/OrderSummaryPage/Style";
+
+interface userDataType {
+  cardData: [];
+  wishlist: [];
+  orderDetail: [];
+}
 
 export const fetchData = async () => {
-	try {
-		const dataSet = collection(db, "product");
-		const query = await getDocs(dataSet);
-		const data = query.docs.map((doc) => doc.data());
-		return data;
-	} catch (error) {
-		throw error;
-	}
+  try {
+    const dataSet = collection(db, "product");
+    const query = await getDocs(dataSet);
+    const data = query.docs.map((doc) => doc.data());
+    return data;
+  } catch (error) {
+    throw error;
+  }
 };
 
 export const fetchCartDataValue = async () => {
-	try {
-		const dataSet = collection(
-			doc(db, "Cart", `${localStorage.getItem("email")}`),
-			"CartProduct"
-		);
-		const querySnapshot = await getDocs(dataSet);
-		const data = querySnapshot.docs.map((doc) => doc.data());
-		return data;
-	} catch (error) {
-		throw error;
-	}
+  const docRef = doc(db, "Cart", `${localStorage.getItem("email")}`);
+  const value = await getDoc(docRef);
+  const cardData = value.data() as userDataType;
+  return cardData.cardData;
 };
 
 export const fetchWishListValue = async () => {
-	try {
-		const dataSet = collection(
-			doc(db, "Cart", `${localStorage.getItem("email")}`),
-			"Wishlist"
-		);
-		const querySnapshot = await getDocs(dataSet);
-		const data = querySnapshot.docs.map((doc) => doc.data());
-		return data;
-	} catch (error) {
-		throw error;
-	}
+  const docRef = doc(db, "Cart", `${localStorage.getItem("email")}`);
+  const value = await getDoc(docRef);
+  const cardData = value.data() as userDataType;
+  return cardData.wishlist;
 };
 
-export const uplodeCartDataValue = async (item: propType) => {
-	const usersub = doc(db, "Cart", `${localStorage.getItem("email")}`);
-	const postco = collection(usersub, "CartProduct");
-	const newDoc = doc(postco);
-	await setDoc(newDoc, {
-		idValue: item.idValue,
-		Name: item.Name,
-		image: item.image,
-		rating: item.rating,
-		price: item.price,
-		qua: item.qua,
-	});
+export const uplode = async (
+  item: propType[],
+  item1: infoDataType[],
+  userEmail: string
+) => {
+  try {
+    const usersub = doc(db, "Cart", userEmail);
+    await updateDoc(usersub, {
+      cardData: [...item],
+      wishlist: [...item1],
+    });
+  } catch (error) {
+    throw error;
+  }
 };
 
-export const uplodeWishListDataValue = async (item: propType) => {
-	const usersub = doc(db, "Cart", `${localStorage.getItem("email")}`);
-	const postco = collection(usersub, "wishList");
-	const newDoc = doc(postco);
-	await setDoc(newDoc, {
-		id: item.idValue,
-		Name: item.Name,
-		image: item.image,
-		rating: item.rating,
-		price: item.price,
-		qua: item.qua,
-	});
+export const uplodeCart = async (userCart: propType[]) => {
+  try {
+    const usersub = doc(db, "Cart", `${localStorage.getItem("email")}`);
+    await updateDoc(usersub, {
+      cardData: arrayUnion(...userCart),
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+export const removeCart = async (userCart: propType[]) => {
+  try {
+    const usersub = doc(db, "Cart", `${localStorage.getItem("email")}`);
+    await updateDoc(usersub, {
+      cardData: arrayRemove(...userCart),
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const uplodeWishList = async (wishListData: infoDataType[]) => {
+  try {
+    const usersub = doc(db, "Cart", `${localStorage.getItem("email")}`);
+    await updateDoc(usersub, {
+      wishlist: arrayUnion(...wishListData),
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const removeWishListData = async (wishListData: infoDataType[]) => {
+  try {
+    const usersub = doc(db, "Cart", `${localStorage.getItem("email")}`);
+    await updateDoc(usersub, {
+      wishlist: arrayRemove(...wishListData),
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const fetchOrderSummary = async () => {
+  try {
+    const docRef = collection(
+      doc(db, "Cart", `${localStorage.getItem("email")}`),
+      "orderDetail"
+    );
+    const querySnapshot = await getDocs(docRef);
+    const data = querySnapshot.docs.map((doc) => doc.data());
+    return data;
+  } catch (error) {
+    throw error;
+  }
 };

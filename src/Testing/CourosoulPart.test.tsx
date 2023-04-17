@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import CarouselComponent from "../Components/Courosoul/Cousoloul";
+import CarouselComponent from "../Components/Carousel/Carousel";
 
 describe("CarouselComponent", () => {
   test("Check the counter value is render or not ", () => {

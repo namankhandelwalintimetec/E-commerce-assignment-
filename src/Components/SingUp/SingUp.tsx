@@ -4,9 +4,7 @@ import { signUpPropsType } from "./InterfaceSignUp";
 
 const SingUp = ({
   setUserCredential,
-  error,
   handelAuthentication,
-  toggle,
 }: signUpPropsType) => {
   const [signUpDetail, setSignUp] = useState({
     name: "",
@@ -38,14 +36,14 @@ const SingUp = ({
     },
   ];
 
+  const preventDefaultNature = (event: any) => {
+    event.preventDefault();
+  };
+
   return (
     <>
       <div className="signup" data-testid="Sign Up">
-        <form
-          onSubmit={(event) => {
-            event.preventDefault();
-          }}
-        >
+        <form onSubmit={preventDefaultNature}>
           <label htmlFor="chk" className="label" aria-hidden="true">
             Sign up
           </label>

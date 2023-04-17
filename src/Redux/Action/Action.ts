@@ -1,5 +1,6 @@
 import { infoDataType } from "../../Components/Interfaces";
 import { propType, propType1 } from "../Reducer/UserCart";
+import cardValue from '../Reducer/CartValue';
 
 export const logIn = () => {
   return { type: "LogIn" };
@@ -24,8 +25,8 @@ export const setProductType = (value: string) => {
   return { type: "SetCategory", payload: value };
 };
 
-export const setProductData = (value: infoDataType[]) => {
-  return { type: "setcarddata", payload: value };
+export const setProductData = (value: infoDataType) => {
+  return { type: "setProductDetail", payload: value };
 };
 
 export const setSingleProductData = (values: infoDataType) => {
@@ -81,8 +82,28 @@ export const cartUpdate = (value: propType) => {
   };
 };
 
-export const resetCartValue = () => {
+export const decreseCartQuantity=(value: propType)=>{
+  return {
+    type: "decreseCartQuantity",
+    payload: value,
+  };
+}
+
+export const resetCartValue = (value:number) => {
   return {
     type: "Reset Cart",
   };
 };
+
+export const setOrderAmount=(value:number)=>{
+  return{
+    type:"setOrderAmount",
+    payload:value
+  }
+}
+
+export const resetOrderAmount = (value: number) => {
+  return {
+    type: "resetOrderAmount"
+  }
+}

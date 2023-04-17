@@ -1,7 +1,6 @@
 import setCategory from "../Redux/Reducer/SetCate";
 
 describe("setCategory reducer", () => {
-
   it("should handle SetCategory action", () => {
     const action = {
       type: "SetCategory",

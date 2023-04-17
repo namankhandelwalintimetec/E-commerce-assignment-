@@ -1,15 +1,10 @@
-import {
-  render,
-  screen,
-  waitFor,
-  fireEvent,
-  act,
-} from "@testing-library/react";
+import { getByTestId, render, screen, waitFor } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
 import store from "../Redux/Store";
 import { Provider } from "react-redux";
 import { infoDataType } from "../Components/Interfaces";
 import Home from "../Screens/Home";
+import CarouselComponent from "../Components/Carousel/Carousel";
 
 describe("CartScreen", () => {
   const cartItems: infoDataType[] = [

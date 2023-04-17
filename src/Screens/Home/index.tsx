@@ -3,7 +3,7 @@ import { db } from "../../Config/Config";
 import Footerpage from "../../Components/Footer/Footer";
 import { collection, getDocs } from "firebase/firestore";
 import ProductCard from "../../Components/ProductCard/Card";
-import CarouselComponent from "../../Components/Courosoul/Cousoloul";
+import CarouselComponent from "../../Components/Carousel/Carousel";
 import { useDispatch, useSelector } from "react-redux";
 import { setEmail } from "../../Redux/Action/Action";
 import { infoDataType, stateType } from "./InterfaceHome";
@@ -41,12 +41,11 @@ const Home = () => {
   useEffect(() => {
     setProductDetail([]);
     fetchData();
-    console.log(updateData);
   }, []);
 
   return (
     <>
-      <CarouselComponent />
+      <CarouselComponent data-testid="subpart" />
       <div className="product-card" data-testid="homePage">
         {productDetail.map((item: infoDataType) => {
           if (SerchText !== "" && item.Name && item.Name.includes(SerchText)) {

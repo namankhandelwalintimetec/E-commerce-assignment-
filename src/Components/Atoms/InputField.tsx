@@ -28,10 +28,10 @@ const InputField = ({
     <>
       <Input
         type={type}
+        data-testid={name}
         name={name}
         placeholder={placeHolder}
         required
-        data-testid={name}
         onChange={(event) => {
           onChange((prev) => ({
             ...prev,

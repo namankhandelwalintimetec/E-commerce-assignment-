@@ -2,8 +2,8 @@ import {
   render,
   screen,
   waitFor,
-  fireEvent,
   act,
+  fireEvent,
 } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
 import store from "../Redux/Store";

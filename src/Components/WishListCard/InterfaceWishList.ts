@@ -7,3 +7,7 @@ export interface infoDataType {
   price: string;
   rating: string;
 }
+
+export interface wishListStateType {
+  userWishlist: infoDataType[];
+}

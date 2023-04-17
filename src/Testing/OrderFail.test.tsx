@@ -3,7 +3,6 @@ import {
   screen,
   waitFor,
   fireEvent,
-  act,
 } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
 import store from "../Redux/Store";
@@ -22,15 +21,15 @@ describe("CartScreen", () => {
   });
 
   test("renders the CheckOut Page component", async () => {
-    const orderPlace = screen.getByTestId("orderFail");
+    const orderFail = screen.getByTestId("orderFail");
     await waitFor(() => {
-      expect(orderPlace).toBeInTheDocument();
+      expect(orderFail).toBeInTheDocument();
     });
   });
 
   test("redirect to OrderCheck out page", () => {
-    const orderPlaceNavigate = screen.getByTestId("orderFailNavigate");
-    fireEvent.click(orderPlaceNavigate);
+    const orderFailNavigate = screen.getByTestId("orderFailNavigate");
+    fireEvent.click(orderFailNavigate);
     expect(window.location.href).toBe("http://localhost/cart");
   });
 });

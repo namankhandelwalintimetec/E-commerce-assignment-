@@ -64,4 +64,5 @@ describe("CartScreen", () => {
     fireEvent.click(removeWishList);
     expect(screen.getByTestId("removeWishList")).toBeInTheDocument();
   });
+  
 });

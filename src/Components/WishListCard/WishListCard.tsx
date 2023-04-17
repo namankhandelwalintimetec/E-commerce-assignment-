@@ -1,7 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
-import { infoDataType } from "./InterfaceWishList";
+import { infoDataType, wishListStateType } from "./InterfaceWishList";
 import { WishCart } from "./WishCart";
 import { removeWish } from "../../Redux/Action/Action";
+import {
+  removeWishListData,
+  uplodeWishList,
+} from "../../Services/ServicesLayer";
 
 const WishlistCard = ({
   Name,
@@ -11,15 +15,16 @@ const WishlistCard = ({
   cate,
   image,
 }: infoDataType) => {
-  var min = 1;
-  var max = 10;
-  var randomValue = Math.floor(min + Math.random() * (max - min));
+  var randomValue = Math.floor(1 + Math.random() * (1 - 10));
   const dispatch = useDispatch();
-  const productData: infoDataType[] = useSelector(
-    (state: any) => state.singleProductData
+  const userWishlist = useSelector(
+    (state: wishListStateType) => state.userWishlist
   );
+
   const removeWishItem = () => {
     dispatch(removeWish(Number(id) - 1));
+    uplodeWishList(userWishlist);
+    removeWishListData(userWishlist);
   };
   return (
     <WishCart>
@@ -36,19 +41,17 @@ const WishlistCard = ({
           <img src={image} className="wish-image" />
           <div className="comment-div">
             <p className="align-rating" data-testid="rating">
-              {rating}⭐
+              {rating}⭐ | {randomValue}K Rating
             </p>
             <div className="vertrical-line"></div>
-            <p>{randomValue}K</p>
           </div>
-          <p>{Name}</p>
+          <h5>{Name}</h5>
           <div className="wish-price">
             <p data-testid="price">Rs.{price} </p>
-            <p className="cross">1800 (75%)</p>
-            <p>Red</p>
+            <p className="cross">MRP {Number(price) + 100} (75%)</p>
           </div>
           <div className="wish-border"></div>
-          <button className="wish-button">Move To Cart</button>
+          <div className="wish-button">Move To Cart</div>
         </div>
       </div>
     </WishCart>

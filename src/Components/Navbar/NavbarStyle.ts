@@ -67,13 +67,28 @@ export const NavStyle = styled.nav`
     scale: 1.1;
   }
 
-  .hide {
+  .hide{
     display: none;
+  }
+  .profile-inside:hover + .hide {
+    display: block;
+    padding:2vh;
+    color: black;
+    position:absolute;
+    top:8vh;
+    right:5vh;
+    text-transform: capitalize;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
   }
   .show {
     display: visiable;
     scale: 1.3;
+    margin-top: -1vh;
   }
+  .card-count {
+    color: black;
+  }
+
   @media screen and (max-width: 667px) {
     width: 90vw;
     .logo {
@@ -122,6 +137,7 @@ export const NavStyle = styled.nav`
     }
     .text {
       margin-left: -20vw;
+      margin-top: 2vh;
     }
 
     .dropdown:hover .dropdown-content {

@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import Notification from "../Components/NotificationPopUp";
+import Notification from "../Components/Notification";
 
 describe("Notification component", () => {
   const mockProps = {

@@ -17,7 +17,19 @@ export interface infoDataType {
   rating: string;
 }
 
+export interface propType {
+  id: string;
+  Name: string;
+  image: string;
+  price: string;
+  rating: string;
+  desc: string;
+  qua: string;
+  cate: string;
+}
+
 export interface StateType {
-  cardData: productDataType[];
+  CardData: infoDataType[];
   userWishlist: infoDataType[];
+  userCart:propType[];
 }

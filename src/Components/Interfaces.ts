@@ -1,7 +1,3 @@
-export interface SpinnerProps {
-  time: boolean;
-}
-
 export interface infoDataType {
   id: string;
   Name: string;
@@ -13,7 +9,7 @@ export interface infoDataType {
 }
 export interface cartDataActionType {
   type: string;
-  payload: infoDataType[];
+  payload: infoDataType;
 }
 
 export interface cartValueActionType {
@@ -32,7 +28,7 @@ export interface singleProductDataActionType {
 }
 
 export interface propType {
-  idValue: string;
+  id: string;
   Name: string;
   image: string;
   price: string;
@@ -66,6 +62,11 @@ export interface removeUser {
   payload: propType1;
 }
 
+export interface decreseCartQuantity{
+  type:"decreseCartQuantity";
+  payload:propType;
+}
+
 export interface setWishList {
   type: string;
   payload: infoDataType;
@@ -76,6 +77,3 @@ export interface removeWishList {
   payload: any;
 }
 
-export interface SpinnerProps {
-  time: boolean;
-}

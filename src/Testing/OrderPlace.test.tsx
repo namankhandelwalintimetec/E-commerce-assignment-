@@ -3,7 +3,6 @@ import {
   screen,
   waitFor,
   fireEvent,
-  act,
 } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
 import store from "../Redux/Store";
@@ -33,4 +32,4 @@ describe("CartScreen", () => {
      fireEvent.click(orderPlaceNavigate);
      expect(window.location.href).toBe("http://localhost/");
    });   
-});   
+}); 

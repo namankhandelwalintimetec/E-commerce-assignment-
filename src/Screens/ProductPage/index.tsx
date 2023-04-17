@@ -2,21 +2,28 @@ import { useParams } from "react-router-dom";
 import SingleProductCard from "../../Components/SingleProductPage/SingleProductCard";
 import { useSelector } from "react-redux";
 import Footerpage from "../../Components/Footer/Footer";
+import { infoDataType } from "../Home/InterfaceHome";
 
 const ProductPage = () => {
-  const { id } = useParams();
+  const { id,cate } = useParams();
   const productdata = useSelector((state: any) => state.CardData);
-  const idValue: number = Number(id);
 
   return (
-    <>
-      <SingleProductCard
-        Name={productdata[idValue - 1].Name}
-        image={productdata[idValue - 1].image}
-        price={productdata[idValue - 1].price}
-        desc={productdata[idValue - 1].desc}
-        rating={productdata[idValue - 1].rating}
-      />
+    <>     
+      {productdata.map((item: infoDataType) => {
+        if (item.id == id && item.cate === cate) {
+          return (
+            <SingleProductCard
+              Name={item.Name}
+              image={item.image}
+              price={item.price}
+              desc={item.dec}
+              rating={item.rating}
+            />
+          );
+        }
+      })}
+
       <Footerpage />
     </>
   );

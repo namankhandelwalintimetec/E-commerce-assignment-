@@ -22,31 +22,57 @@ export const CateStyle = styled.div`
   }
 
   .filter-option {
-    display: flex;
+    // display: flex;
   }
+  .filter{
+    position: absolute;
+    top:22vh;
+    left:10vw;
+    :hover{
+      color:blue;
+    }
+  }
+
   .filter-div {
-    width: 25%;
+    width: 60vw;
     margin-left: 1vw;
     margin-top: 3px;
     padding: 2vh;
     box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px,
       rgba(6, 24, 44, 0.65) 0px 4px 6px -1px,
       rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
-    height: 80vh;
+    height: 13vh;
     gap: 3vh;
+    display flex;
+    padding:2vw;
+    margin-left:20vw;
+    margin-bottom:3vh;
+    margin-top:3vh;
   }
   .rating-box {
     display: flex;
-    gap: 10%;
+    gap: 1vw;
+    margin-left:10vh;
+    width-max:40vw;
+  }
+  .rating-box-second
+  {
+    display: flex;
+    gap: 1vw;
+    margin-left:15vh;
+    width:20vw;
   }
   .input-rating {
     border-bottom: 1px solid #7e78c0;
-    width: 50%;
+    width: 10vw;
+    height:4vh;
     text-align: center;
     font-weight: 600;
+    border:none;
+    border-bottom:1px solid black;
   }
   .slidecontainer {
-    width: 100%;
+    width: 20vw;
   }
 
   .slider {
@@ -72,8 +98,8 @@ export const CateStyle = styled.div`
     appearance: none;
     width: 25px;
     height: 25px;
-    border-radius: 50%;
-    background: #04aa6d;
+    border-radius: 90%;
+    background: black;
     cursor: pointer;
   }
 

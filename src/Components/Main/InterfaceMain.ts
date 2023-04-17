@@ -9,7 +9,7 @@ export interface infoDataType {
 }
 
 export interface propType {
-  idValue: string;
+  id: string;
   Name: string;
   image: string;
   price: string;

@@ -1,8 +1,13 @@
 import { type } from "os";
-import { removeUser, setUser, updateCart } from "../../Components/Interfaces";
+import {
+  removeUser,
+  setUser,
+  updateCart,
+  decreseCartQuantity,
+} from "../../Components/Interfaces";
 
 export interface propType {
-  idValue: string;
+  id: string;
   Name: string;
   image: string;
   price: string;
@@ -19,11 +24,12 @@ export interface propType1 {
   rating: string;
   desc: string;
   qua: string;
+  cate: string;
 }
 
 let initialState: propType[] = [
   {
-    idValue: "",
+    id: "",
     Name: "",
     image: "",
     price: "",
@@ -33,13 +39,13 @@ let initialState: propType[] = [
     cate: "",
   },
 ];
-type typeValue = setUser | removeUser | updateCart;
+type typeValue = setUser | removeUser | updateCart | decreseCartQuantity;
 
 const userCart = (state: propType[] = [], action: typeValue): propType[] => {
   switch (action.type) {
     case "SetUserCart":
       const index = state.findIndex(
-        (product) => product.idValue === action.payload.idValue
+        (product) => product.id === action.payload.id
       );
       if (index === -1) {
         return [...state, action.payload];
@@ -50,7 +56,7 @@ const userCart = (state: propType[] = [], action: typeValue): propType[] => {
 
     case "updateCart":
       const index1: number = state.findIndex(
-        (product) => product.idValue === action.payload.idValue
+        (product) => product.id === action.payload.id
       );
       if (index1 === -1) {
         return [...state, action.payload];
@@ -64,9 +70,25 @@ const userCart = (state: propType[] = [], action: typeValue): propType[] => {
         return newState;
       }
 
+    case "decreseCartQuantity":
+      const indexValue: number = state.findIndex(
+        (product) => product.id === action.payload.id
+      );
+      if (indexValue === -1) {
+        return [...state, action.payload];
+      } else {
+        const newState = [...state];
+        const updatedProduct = {
+          ...newState[indexValue],
+          qua: String(Number(newState[indexValue].qua) - 1),
+        };
+        newState[indexValue] = updatedProduct;
+        return newState;
+      }
+
     case "removeUserCart":
       const productId = action.payload.id;
-      return state.filter((product) => product.idValue !== productId);
+      return state.filter((product) => product.id !== productId);
     default:
       return state;
   }

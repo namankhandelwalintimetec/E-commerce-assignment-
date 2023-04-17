@@ -25,6 +25,9 @@ export const CheckOutPageStyle = styled.div`
   .middle-div {
     padding: 0 1vw;
   }
+  input{
+    padding:2vh;
+  }
 
   .container {
     background-color: #f2f2f2;

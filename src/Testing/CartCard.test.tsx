@@ -14,7 +14,7 @@ import Cart from "../Components/Cart/Cart";
 
 describe("CartScreen", () => {
   const cartItems: propType = {
-    idValue: "1",
+    id: "1",
     Name: "Product 1",
     price: "100",
     cate: "product",
@@ -24,7 +24,7 @@ describe("CartScreen", () => {
     rating: "4",
   };
 
-  const removeItem=jest.fn();
+  const removeItem = jest.fn();
   beforeEach(() => {
     render(
       <Provider store={store}>
@@ -41,7 +41,7 @@ describe("CartScreen", () => {
       expect(CartPageContainer).toBeInTheDocument();
     });
   });
-  
+
   test("increase quantity", () => {
     act(() => {
       store.dispatch({ type: "data", payload: cartItems });

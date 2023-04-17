@@ -6,7 +6,6 @@ import { Spinner } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { CateStyle } from "./styleCatePage";
 import { setProductType } from "../../Redux/Action/Action";
-import { categoryList } from "../../Components/Links";
 
 const ProductCategoryPage = () => {
   const productdata = useSelector((state: any) => state.CardData);
@@ -19,7 +18,7 @@ const ProductCategoryPage = () => {
 
   setTimeout(() => {
     setloading(0);
-  }, 1000);
+  }, 500);
 
   const changeCate = (value: string) => {
     dispatch(setProductType(value));
@@ -31,19 +30,22 @@ const ProductCategoryPage = () => {
         <Spinner animation="border" />
       </div>
       <div className="filter-option">
+        <h3 className="filter">Filters</h3>
         <div className="filter-div">
-          <div className="slidecontainer rating-box" data-testid="ProductCard">
+          <div className="slidecontainer rating-box" data-testid="product-cart">
+            <label className="cate-name">Price</label>
             <input
               type="range"
               className="slider"
               min="0"
               max="100000"
               value={price}
+              data-testid="slider"
               onChange={(e: any) => setPrice(e.target.value)}
             />
           </div>
           <p className="cate-name">Rs.{price}</p>
-          <div className="rating-box">
+          <div className="rating-box-second">
             <label className="cate-name">Rating</label>
             <input
               type="number"
@@ -59,7 +61,7 @@ const ProductCategoryPage = () => {
           </div>
         </div>
 
-        <div className="product-div">
+        <div className="product-div" data-testid="product-card">
           {productdata.map((item: infoDataType) => {
             if (
               item.cate === cate &&
