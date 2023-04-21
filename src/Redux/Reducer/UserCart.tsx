@@ -4,6 +4,7 @@ import {
   setUser,
   updateCart,
   decreseCartQuantity,
+  emptyCart,
 } from "../../Components/Interfaces";
 
 export interface propType {
@@ -39,7 +40,7 @@ let initialState: propType[] = [
     cate: "",
   },
 ];
-type typeValue = setUser | removeUser | updateCart | decreseCartQuantity;
+type typeValue = setUser | removeUser | updateCart | decreseCartQuantity |emptyCart;
 
 const userCart = (state: propType[] = [], action: typeValue): propType[] => {
   switch (action.type) {
@@ -89,6 +90,9 @@ const userCart = (state: propType[] = [], action: typeValue): propType[] => {
     case "removeUserCart":
       const productId = action.payload.id;
       return state.filter((product) => product.id !== productId);
+      
+    case "emptyCart":
+      return []
     default:
       return state;
   }

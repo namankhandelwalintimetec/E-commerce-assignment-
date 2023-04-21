@@ -20,7 +20,7 @@ const Notification = ({
   }
 
   return (
-    <NotificationStyled>
+    <NotificationStyled data-testid="notify">
       <div className={classValue}>
         {showNotification && (
           <div className={notificationClass} role="alert">

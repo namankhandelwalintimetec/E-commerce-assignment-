@@ -15,7 +15,7 @@ const WishlistCard = ({
   cate,
   image,
 }: infoDataType) => {
-  var randomValue = Math.floor(1 + Math.random() * (1 - 10));
+  var randomValue = Math.floor(1 + Math.random() * (10 - 1));
   const dispatch = useDispatch();
   const userWishlist = useSelector(
     (state: wishListStateType) => state.userWishlist
@@ -51,7 +51,9 @@ const WishlistCard = ({
             <p className="cross">MRP {Number(price) + 100} (75%)</p>
           </div>
           <div className="wish-border"></div>
-          <div className="wish-button">Move To Cart</div>
+          <div className="wish-button" onClick={removeWishItem}>
+            Remove
+          </div>
         </div>
       </div>
     </WishCart>

@@ -12,9 +12,8 @@ export const ProductCardStyle = styled.div`
     margin: auto;
     text-align: center;
     border: none;
-    
   }
-  .favicon-cart{
+  .favicon-cart {
     width: 8%;
     height: 8%;
     position: relative;
@@ -22,7 +21,7 @@ export const ProductCardStyle = styled.div`
     right: 8vw;
   }
 
-  .favicon-cart-image{
+  .favicon-cart-image {
     width: 8%;
     height: 8%;
     position: relative;
@@ -31,9 +30,8 @@ export const ProductCardStyle = styled.div`
   }
 
   .card-product {
-    // box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
-    //   rgba(0, 0, 0, 0.22) 0px 15px 12px;
-    box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
+    box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px,
+      rgba(17, 17, 26, 0.1) 0px 0px 8px;
   }
 
   .card-content {
@@ -188,6 +186,11 @@ export const ProductCardStyle = styled.div`
     color: orangered;
   }
 
+  .pointer
+  {
+    cursor: pointer;
+  }
+
   @media screen and (max-width: 667px) {
     .card-product {
       background-color: rgb(218, 231, 227);
@@ -213,6 +216,20 @@ export const ProductCardStyle = styled.div`
       top: 1vh;
       left: 27vw;
       opacity: 0.8;
+    }
+    .favicon-cart {
+      width: 8%;
+      height: 8%;
+      position: relative;
+      bottom: -49vh;
+      right: -20vw;
+    }
+    .favicon-cart-image {
+      width: 8%;
+      height: 8%;
+      position: relative;
+      bottom: -48vh;
+      right: -20vw;
     }
   }
 `;

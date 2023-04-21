@@ -53,13 +53,55 @@ export const OrderSummary = styled.div`
     position: relative;
     bottom: -5vh;
   }
-  .achive {
+
+   @media (max-width: 800px) {
+    .achive {
     position: relative;
     bottom: -15%;
-    left: -40%;
+    left: -28%;
     color: #00718d;
     font-size: larger;
     font-weight: 600;
     paddign: 2vw;
+  }
+  .middle-part {
+    display: flex;
+    gap: 5vw;
+    font-weight: 600;
+    button {
+      border: none;
+      background: #00718d;
+      padding: 1vh;
+      color: white;
+    }
+  }
+   .image-order {
+    width: 23vw;
+    height: 23vh;
+  }
+  .status {
+    font-size: 4vw;
+    font-weight: 700;
+    margin-left: -58vw;
+    margin-top: 3vh;
+  }
+   .itemscroll {
+	 overflow:scroll;
+   margin-top:2vh;
+   width:35vw;
+   height:35vw;
+  }
+  .top-div {
+    background: #f0f2f2;
+    margin-top: 0vh;
+    gap: 10vw;
+    height: 10vh;
+    font-weight: 700;
+    font-style: larger;
+    padding: 1vw;
+    border: 1px solid #d5d9d9;
+    border-radius-top: 10vw;
+    width: 79vw;
+  }
   }
 `;

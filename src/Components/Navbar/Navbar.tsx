@@ -14,9 +14,12 @@ import Notification from "../Notification";
 const Navbar = () => {
   const navigate = useNavigate();
   const [searchItem, setSearchItem] = useState("");
-  const userCartDetails = useSelector(
-    (state: StateTypeNavbar) => state.userCart
+  const userWishList = useSelector(
+    (state: StateTypeNavbar) => state.userWishlist
   );
+   const userCartDetails = useSelector(
+     (state: StateTypeNavbar) => state.userCart
+   );
   const userEmail = useSelector((state: StateTypeNavbar) => state.userEmail);
   const [popUpNotification, setPopUpNotification] = useState({
     title: "success",
@@ -133,7 +136,11 @@ const Navbar = () => {
           }}
           value={searchItem}
         />
-        <p className="serch-icon" onClick={setSerchTextvalue}>
+        <p
+          className="serch-icon"
+          onClick={setSerchTextvalue}
+          data-testid="search-value"
+        >
           <FaSearch />
         </p>
 
@@ -145,7 +152,7 @@ const Navbar = () => {
                 className={
                   localStorage.getItem("email") ? "hide" : "show color"
                 }
-                data-testid="loginButton"
+                data-testid="login"
               />
 
               <BiUserCircle
@@ -153,10 +160,13 @@ const Navbar = () => {
                 className={
                   localStorage.getItem("email") ? "show color" : "hide "
                 }
+                data-testid="logout"
               />
             </Link>
           </li>
-          <p className="hide">{localStorage.getItem("email")}</p>
+          <p className="hide" data-testid="hover">
+            {localStorage.getItem("email")}
+          </p>
           <li className="profile-inside">
             <Link to="/wishlist">
               <span
@@ -165,6 +175,9 @@ const Navbar = () => {
                 onClick={() => navigateCategory("Wishlist")}
               >
                 favorite
+              </span>
+              <span className="numberfav">
+                {localStorage.getItem('email') ? userWishList.length : ""}
               </span>
             </Link>
           </li>
@@ -184,16 +197,18 @@ const Navbar = () => {
             </Link>
           </li>
         </ul>
+
         <ul className="dropdown">
-          <li className="text">
+          <li className="text" data-testid="dropdown">
             <BiUserCircle size={"1.3em"} className="show" />
           </li>
-          <div className="dropdown-content">
+          <div className="dropdown-content" data-testid="dropdownContent">
             <li className="list-inside">
               <p
                 onClick={() => {
                   navigate("/");
                 }}
+                data-testid="allDrop"
               >
                 All
               </p>
@@ -203,6 +218,7 @@ const Navbar = () => {
               onClick={() => {
                 navigateCategory("men");
               }}
+              data-testid="mendrop"
             >
               Men
             </li>
@@ -211,6 +227,7 @@ const Navbar = () => {
               onClick={() => {
                 navigateCategory("female");
               }}
+              data-testid="femaleDrop"
             >
               Women
             </li>
@@ -219,6 +236,7 @@ const Navbar = () => {
               onClick={() => {
                 navigateCategory("electronic");
               }}
+              data-testid="electronicDrop"
             >
               Electronic
             </li>

@@ -58,11 +58,11 @@ describe("CartScreen", () => {
 
   test("remove item", () => {
     act(() => {
-      store.dispatch({ type: "remove item", payload: wishItems });
+      store.dispatch({ type: "removeWishlist", payload: wishItems });
     });
     const removeWishList = screen.getByTestId("removeWishList");
     fireEvent.click(removeWishList);
-    expect(screen.getByTestId("removeWishList")).toBeInTheDocument();
+    const update = store.getState().userWishlist.length;
+    expect(update).toBe(0);
   });
-  
 });

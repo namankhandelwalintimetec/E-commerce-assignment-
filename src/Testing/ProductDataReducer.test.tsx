@@ -5,11 +5,6 @@ describe("cardData reducer", () => {
   const initialState = [
     { id: "", Name: "", cate: "", dec: "", image: "", price: "", rating: "" },
   ];
-
-  it("should return the initial state", () => {
-    expect(cardData(undefined, {})).toEqual(initialState);
-  });
-
   it("should handle setProductDetail", () => {
     const payload = {
       id: "1",

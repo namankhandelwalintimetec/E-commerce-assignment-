@@ -62,6 +62,10 @@ export interface removeUser {
   payload: propType1;
 }
 
+export interface emptyCart {
+  type: "emptyCart";
+}
+
 export interface decreseCartQuantity{
   type:"decreseCartQuantity";
   payload:propType;

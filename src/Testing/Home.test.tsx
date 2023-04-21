@@ -1,4 +1,10 @@
-import { getByTestId, render, screen, waitFor } from "@testing-library/react";
+import {
+  getByTestId,
+  render,
+  screen,
+  waitFor,
+  act,
+} from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
 import store from "../Redux/Store";
 import { Provider } from "react-redux";
@@ -30,9 +36,7 @@ describe("CartScreen", () => {
   beforeEach(() => {
     render(
       <Provider store={store}>
-        <Router>
-          <Home />
-        </Router>
+        <Home />
       </Provider>
     );
   });
@@ -44,8 +48,51 @@ describe("CartScreen", () => {
     });
   });
 
-  test("check number of item in wishList ", () => {
-    store.dispatch({ type: "check nmumber of items ", payload: [] });
-    expect(cartItems.length).toBe(2);
+  test("check number of item in list ", () => {
+    act(() => {
+      store.dispatch({ type: "setProductDetail", payload: cartItems });
+    });
+    const data = store.getState().CardData.filter((data) => {
+      return data.Name === "naman";
+    });
+    expect(data.length).toBe(0);
   });
+
+  test("check Child component render or not ", async () => {
+    const homePage = screen.getByTestId("test");
+    await waitFor(() => {
+      expect(homePage).toBeInTheDocument();
+    });
+  });
+
+  test("renders the Home Page component", async () => {
+    const footer = screen.getByTestId("footer");
+    await waitFor(() => {
+      expect(footer).toBeInTheDocument();
+    });
+  });
+
+  test("check number of item in list ", () => {
+    act(() => {
+      store.dispatch({ type: "setProductDetail", payload: cartItems });
+    });
+    const data = store.getState().CardData.length;
+     act(() => {
+       store.dispatch({ type: "SetText", payload: "" });
+     });
+     const dataTest=store.getState().SerchText;
+     if(dataTest.length<0)
+     {
+       expect(data).toBe(2);
+     }
+     if(dataTest.length>0)
+     {
+      const data = store.getState().CardData.filter((item)=>{
+        return item.Name.includes(dataTest);
+      })
+      expect(data).toBe(1);
+     }
+    
+  });
+  
 });

@@ -131,16 +131,41 @@ export const CateStyle = styled.div`
       display: block;
     }
     .filter-div {
-      width: 80vw;
-      margin-left: -5vw;
+      width: 60vw;
+      display:block;
       margin-top: 3vh;
       margin-bottom: 10vh;
       padding: 2vh;
       box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px,
         rgba(6, 24, 44, 0.65) 0px 4px 6px -1px,
         rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
-      height: 30vh;
-      gap: 5vh;
+      height: 20vh;
+      gap: 1vh;
     }
+    .slider {
+    -webkit-appearance: none;
+    width: 30vw;
+    height: 15px;
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: 0.2s;
+    transition: opacity 0.2s;
+  }
+  .rating-box {
+    gap: 1vw;
+    margin-left:1vh;
+    width-max:40vw;
+  }
+  .rating-box-second
+  {
+    gap: 1vw;
+    margin-left:1vh;
+    margin-top:1vh;
+    width:20vw;
+  }
   }
 `;

@@ -6,18 +6,25 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { StateTypeCheckOut } from "./InterfaceCheckOut";
 import Notification from "../../Components/Notification";
-import { fetchCartDataValue, removeCart } from "../../Services/ServicesLayer";
+import {
+  emptyCart,
+  fetchCartDataValue,
+  removeCart,
+} from "../../Services/ServicesLayer";
+import { emptyUserCart } from "../../Redux/Action/Action";
 
 const CheckOut = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [firstName, setFirstName] = useState("");
   const [addresh, setAddresh] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [cardNumber, setCardNumber] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [amountValue, setAmount] = useState(0);
   const [cvv, setCvv] = useState("");
   const userCart = useSelector((state: StateTypeCheckOut) => state.userCart);
-  const amount = useSelector((state: StateTypeCheckOut) => state.Discount);
+  const discount = useSelector((state: StateTypeCheckOut) => state.Discount);
   const [popUpCheckOutPage, setPopUpCheckOutPage] = useState({
     title: "success",
     message: "Added in WishList",
@@ -46,14 +53,17 @@ const CheckOut = () => {
     setPopUpBoxProperty(title, message, type, classValue);
     setTimeout(() => {
       setPopUpBoxProperty("success", "Added in WishList", "success", "hide");
-    }, 1000);
+    }, 3000);
   };
 
-  const fetchCartDatarelode = async () => {
+  const fetchCartDatarelode = () => {
+    let value = 0;
     userCart.map((item) => {
-      setAmount(amountValue + Number(item.price));
+      value = value + Number(item.price) * Number(item.qua);
     });
+    setAmount(value);
   };
+
   window.addEventListener("load", () => {
     fetchCartDatarelode();
   });
@@ -70,17 +80,35 @@ const CheckOut = () => {
 
   const bookOrder = async () => {
     const pincodeRegExpression = /^\d{6}$/;
-    const phoneNumberRegExpression = /^\d{3}\d{3}\d{4}$/;
-    const cardReguExpression = /^4[0-9]{12}(?:[0-9]{3})?$/;
-    const cvvRegularExpression = /^[0-9]{3,4}$/;
+    const phoneNumberRegExpression = /^\d{10}$/;
+    const cardReguExpression = /^\d{16}$/;
+    const cvvRegularExpression = /^\d{2}$/;
+
     if (
       firstName === "" ||
       addresh === "" ||
-      pincodeRegExpression.test(postalCode) ||
       postalCode === "" ||
-      cardReguExpression.test(cardNumber)
+      cvv === "" ||
+      cardNumber === ""
     ) {
-      showPopUp("warning", "Invalid Data", "warning", "show");
+      showPopUp("warning", "Invalid Values", "warning", "show");
+    } else if (!pincodeRegExpression.test(postalCode)) {
+      showPopUp("warning", "Incorrect Postelcode 6 digit", "warning", "show");
+    } else if (!phoneNumberRegExpression.test(phoneNumber)) {
+      showPopUp("warning", "Phone num inValid", "warning", "show");
+    } else if (!cardReguExpression.test(cardNumber)) {
+      if (cardNumber.length < 16) {
+        showPopUp(
+          "warning",
+          "Cardnumber Length should Be 16 Digits",
+          "warning",
+          "show"
+        );
+      } else {
+        showPopUp("warning", "Invalid Card number", "warning", "show");
+      }
+    } else if (!cvvRegularExpression.test(cvv)) {
+      showPopUp("warning", "CVV Should be 3 Digit", "warning", "show");
     } else {
       try {
         const usersub = doc(db, "Cart", `${localStorage.getItem("email")}`);
@@ -89,7 +117,7 @@ const CheckOut = () => {
         await setDoc(newDoc, {
           Name: firstName,
           addresh: addresh,
-          Amount: amountValue - amount,
+          Amount: amountValue - discount,
           item: userCart.length,
           email: localStorage.getItem("email"),
           id: Math.floor(Math.random() * 10),
@@ -97,8 +125,9 @@ const CheckOut = () => {
           itemArray: [...userCart],
         });
         showPopUp("success", "order Placed", "success", "show");
+        emptyCart();
+        dispatch(emptyUserCart());
         navigate("/order/placed");
-        removeCart(userCart);
       } catch (error) {
         navigate("/order/fail");
       }
@@ -129,22 +158,23 @@ const CheckOut = () => {
                     type="text"
                     id="fname"
                     name="firstname"
+                    data-testid="name"
                     placeholder="First name"
+                    required
                     value={firstName}
                     onChange={(e) => {
                       setFirstName(e.target.value);
                     }}
-                    required
                   />
-                  <label htmlFor="fname">Full Name</label>
+                  <label htmlFor="fname">Phone Number</label>
                   <input
-                    type="text"
+                    type="number"
                     id="fname"
                     name="firstname"
-                    placeholder="First name"
-                    value={firstName}
+                    placeholder="Phone"
+                    value={phoneNumber}
                     onChange={(e) => {
-                      setFirstName(e.target.value);
+                      setPhoneNumber(e.target.value);
                     }}
                     required
                   />
@@ -192,7 +222,7 @@ const CheckOut = () => {
                         type="number"
                         id="zip"
                         name="zip"
-                        placeholder="*303022"
+                        placeholder="PinCode"
                         onChange={(e: any) => {
                           setPostalCode(e.target.value);
                         }}
@@ -201,14 +231,13 @@ const CheckOut = () => {
                     </div>
                   </div>
                 </div>
-
                 <div className="middle-part">
                   <label htmlFor="cname">Name on Card</label>
                   <input
                     type="text"
                     id="cname"
                     name="cardname"
-                    placeholder="Rahul Bansal"
+                    placeholder="Card Holder"
                     required
                   />
                   <label htmlFor="ccnum">Credit card number</label>
@@ -216,7 +245,7 @@ const CheckOut = () => {
                     type="number"
                     id="ccnum"
                     name="cardnumber"
-                    placeholder="1111-2222-3333-4444"
+                    placeholder="Card Number"
                     onChange={(e) => {
                       setCardNumber(e.target.value);
                     }}
@@ -282,7 +311,7 @@ const CheckOut = () => {
           <p>
             Total
             <span className="price">
-              <b>{amountValue - amount}</b>
+              <b>{amountValue - discount}</b>
             </span>
           </p>
         </div>

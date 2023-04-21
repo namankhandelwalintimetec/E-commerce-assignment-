@@ -119,7 +119,9 @@ const Cart = ({
               Free delevary above 799
             </p>
             <div className="remove-button" data-testid="remove-item">
-              <p onClick={removeItem}>Remove</p>
+              <p onClick={removeItem}>
+                Remove
+              </p>
             </div>
           </div>
           <div className="quantity d-flex ">

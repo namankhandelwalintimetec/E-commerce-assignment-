@@ -37,7 +37,7 @@ const Login = ({
             event.preventDefault();
           }}
         >
-          <label className="label" aria-hidden="true" data-testid="Sign Up">
+          <label className="label" aria-hidden="true" data-testid="Login-toggle" title="toggle">
             {toggle}
           </label>
 
@@ -52,6 +52,7 @@ const Login = ({
           ))}
           <button
             className="button"
+            data-testid="loginbutton"
             onClick={() => {
               setUserCredential(
                 logInDetail.name,
