@@ -1,28 +1,43 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { infoDataType } from "./InterfaceProductCate";
 import Card from "../../Components/ProductCard/Card";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { CateStyle } from "./styleCatePage";
-import { setProductType } from "../../Redux/Action/Action";
 
 const ProductCategoryPage = () => {
   const productdata = useSelector((state: any) => state.CardData);
   const [loading, setloading] = useState<Number>(1);
   const [price, setPrice] = useState("0");
+  const [max, setMaxPrice] = useState(-1);
+  const [setcate,setSetCate]=useState('');
   const [rating, setRating] = useState<number>(0);
-  const setCategory: string = useSelector((state: any) => state.setCategory);
   const { cate } = useParams();
-  const dispatch = useDispatch();
+
+  useEffect(() => {
+    productdata.map((item: infoDataType) => {
+      if (cate === "men"){
+        setMaxPrice(15000)
+        setSetCate("men");
+      }
+      if (cate === "female") {
+        setMaxPrice(8900);
+        setSetCate("female");
+      }
+      if (cate === "electronic") {
+        setMaxPrice(1900000);
+        setSetCate("electronic");
+      }
+      else{
+        setSetCate("nan")
+      }
+    });
+  },[cate])
 
   setTimeout(() => {
     setloading(0);
   }, 500);
-
-  const changeCate = (value: string) => {
-    dispatch(setProductType(value));
-  };
 
   return (
     <CateStyle>
@@ -38,7 +53,7 @@ const ProductCategoryPage = () => {
               type="range"
               className="slider"
               min="0"
-              max="100000"
+              max={max}
               value={price}
               data-testid="slider"
               onChange={(e: any) => setPrice(e.target.value)}
@@ -66,7 +81,7 @@ const ProductCategoryPage = () => {
             if (
               item.cate === cate &&
               price > "1" &&
-              Number(item.price) > Number(price) &&
+              Number(item.price) >= Number(price) &&
               item.rating >= String(rating)
             ) {
               return (
@@ -83,7 +98,7 @@ const ProductCategoryPage = () => {
             }
             if (
               item.cate === cate &&
-              price == "0" &&
+              price === "0" &&
               item.rating >= String(rating)
             ) {
               return (
@@ -102,7 +117,7 @@ const ProductCategoryPage = () => {
               item.cate === cate &&
               price > "0" &&
               rating <= 0 &&
-              Number(item.price) > Number(price)
+              Number(item.price) >= Number(price)
             ) {
               return (
                 <Card
@@ -116,7 +131,7 @@ const ProductCategoryPage = () => {
                 />
               );
             }
-            if (item.cate === cate && price === "0" && rating == 0) {
+            if (item.cate === cate && price === "0" && rating === 0) {
               return (
                 <Card
                   id={item.id}
@@ -130,6 +145,7 @@ const ProductCategoryPage = () => {
               );
             }
           })}
+          {setcate === "nan" && <h2>Category is not Avaliavle</h2>}
         </div>
       </div>
     </CateStyle>

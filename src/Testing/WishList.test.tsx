@@ -50,8 +50,23 @@ describe("CartScreen", () => {
     });
   });
 
+   test("renders the cart Page component", () => {
+     act(() => {
+       store.dispatch({
+         type: "SetEmail",
+         payload: "namankhandelwa@gmail.com",
+       });
+       expect(window.location.href).toBe("http://localhost/EmptyWishlist");
+     });
+   });
+
   test("check number of item in wishList ", () => {
-    store.dispatch({ type: "check nmumber of items ", payload: [] });
-    expect(cartItems.length).toBe(2);
+    cartItems.forEach((product)=>{
+     act(() => {
+       store.dispatch({ type: "SetWishlist", payload: product });
+     });
+    })
+    const update=store.getState().userWishlist
+    expect(update.length).toBe(2);
   });
 });

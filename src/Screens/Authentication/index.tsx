@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SingUp from "../../Components/SingUp/SingUp";
 import Login from "../../Components/LogIn/Login";
 import { useNavigate } from "react-router-dom";
@@ -29,6 +29,13 @@ const Authentication = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+  useEffect(() => {
+    scrollToTop();
+  }, []);
+
   const [userInfo, setUserInfo] = useState({
     name: "",
     email: "",
@@ -47,7 +54,6 @@ const Authentication = () => {
       console.log(error);
     }
   };
-
   const setUserCredential = (name: string, email: string, password: string) => {
     setUserInfo((prev) => ({
       ...prev,
@@ -76,12 +82,6 @@ const Authentication = () => {
   };
 
   const userSignUp = async () => {
-    if (!userInfo.name || !userInfo.email || !userInfo.password) {
-      setErrorMessage("Fill all fields");
-      showPopUp("warning", "Fill all fields", "warning", "show");
-      return;
-    }
-    setErrorMessage("");
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -92,35 +92,36 @@ const Authentication = () => {
       createUserCollection(userInfo.email);
       showPopUp("success", "Sign In SuccessFully", "success", "show");
     } catch (error: any) {
-      setErrorMessage(error.message);
-      showPopUp("warning", error, "error", "show");
+      showPopUp("warning", "Failed", "error", "show");
     }
   };
 
   const userLogIn = async () => {
-    if (!userInfo.email || !userInfo.password) {
-      setErrorMessage("Fill all fields");
-      showPopUp("warning", "Fill all fields", "warning", "show");
-      return;
-    }
-    setErrorMessage("");
-    try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        userInfo.email,
-        userInfo.password
-      );
-      localStorage.setItem("email", userInfo.email);
-      localStorage.setItem("Name", userInfo.name);
-      dispatch(setEmail(userInfo.email));
-      showPopUp("success", "Logn In SuccessFully", "success", "show");
-      setTimeout(() => {
-        navigate("/");
-      }, 1000);
-      fetchCartData();
-      fetchWishList();
-    } catch (error: any) {
-      showPopUp("success", error.message, "error", "show");
+    if (userInfo.email.length <= 0 || userInfo.password.length <= 0) {
+      showPopUp("warning", " ", "error", "show");
+    } else {
+      try {
+        const userCredential = await signInWithEmailAndPassword(
+          auth,
+          userInfo.email,
+          userInfo.password
+        );
+        localStorage.setItem("email", userInfo.email);
+        localStorage.setItem("Name", userInfo.name);
+        dispatch(setEmail(userInfo.email));
+        showPopUp("success", "Logn In SuccessFully", "success", "show");
+        setTimeout(() => {
+          navigate("/");
+        }, 3000);
+        fetchCartData();
+        fetchWishList();
+      } catch (error: any) {
+        if (error.message === "Firebase: Error (auth/wrong-password).") {
+          showPopUp("Error", "Passward Wrong", "error", "show");
+        } else {
+          showPopUp("Error", "Invalid Data", "error", "show");
+        }
+      }
     }
   };
 
@@ -143,12 +144,12 @@ const Authentication = () => {
     });
     setTimeout(() => {
       setPopUp({
-        title: title,
-        message: message,
-        type: type,
+        title: "",
+        message: "",
+        type: "",
         class: "hide",
       });
-    }, 1000);
+    }, 3000);
   };
 
   return (
@@ -158,30 +159,35 @@ const Authentication = () => {
         message={popUp.message}
         type={popUp.type}
         classValue={popUp.class}
-        data-testid="notify"
       />
       <div className="main-div">
-        <div className="main" data-testid="wishCard">
-          <div className={toggleButton === "Sing up" ? "toggle" : "togglenot"}>
+        <div className="main" data-testid="authentication">
+          <div
+            className={toggleButton === "Sing up" ? "toggle" : "togglenot"}
+            data-testid="signup"
+          >
             <SingUp
               setUserCredential={setUserCredential}
               handelAuthentication={userSignUp}
+              toggle={toggleButton}
             />
           </div>
-          <div className={toggleButton === "log in" ? "toggle" : "togglenot"}>
+          <div
+            className={toggleButton === "log in" ? "toggle" : "togglenot"}
+            data-testid="login"
+          >
             <Login
               data-testid="Login"
               setUserCredential={setUserCredential}
               toggle={toggleButton}
               handleLogIn={userLogIn}
-              errorMessage={errorMessage}
             />
           </div>
           <div className="circular">
             <div
               onClick={changeOption}
               className="toggle-text"
-              data-testid="toggle-text"
+              // data-testid="toggle-text"
             >
               {toggleButton === "log in" ? "Sign up" : "Log In"}
             </div>

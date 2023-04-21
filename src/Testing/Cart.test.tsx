@@ -11,8 +11,8 @@ import { Provider } from "react-redux";
 import { propType } from "../Components/Cart/CartInterface";
 import ShopCart from "../Screens/Cart";
 
-describe("CartScreen", () => {
-  let component: any;
+describe.only("CartScreen", () => {
+  // let component: any;
   const cartItems: propType[] = [
     {
       id: "1",
@@ -45,30 +45,51 @@ describe("CartScreen", () => {
     );
   });
 
-  test("renders the cart Page component", async () => {
-    const CartPageContainer = screen.getByTestId("cart-page-container");
-    await waitFor(() => {
-      expect(CartPageContainer).toBeInTheDocument();
-    });
+  test("renders the cart Page component", () => {
+    const CartPageContainer = screen.getByTitle("container");
+    expect(CartPageContainer).toBeInTheDocument();
   });
 
+   test("renders the cart Page component", () => {
+    act(() => {
+      store.dispatch({ type: "SetEmail", payload: "" }); 
+    });
+     expect(window.location.href).toBe("http://localhost/EmptyCart");
+   });
+
   test("displays a message when the cart is empty", () => {
-    store.dispatch({ type: "data", payload: [] });
+    act(() => {
+      store.dispatch({ type: "SetUserCart", payload: cartItems[0] });
+    });
     const emptyCartMessage = screen.getByTestId("empty-cart-message");
     expect(emptyCartMessage).toBeInTheDocument();
   });
 
   test("redirect to OrderCheck out page", () => {
-    const placeOrder = screen.getByTestId("PlaceOrder");
+    const placeOrder = screen.getByText("Place Order");
     fireEvent.click(placeOrder);
-    expect(window.location.href).toBe("http://localhost/EmptyCart");
+    expect(window.location.href).toBe("http://localhost/checkout"); 
   });
 
-  it("should render product cards after data is loaded", async () => {
+   test("redirect to OrderSummary page", () => {
+     const placeOrder = screen.getByText("Order history");
+     fireEvent.click(placeOrder);
+     expect(window.location.href).toBe("http://localhost/orderSummary");
+   });
+ 
+  test("displays a message when the cart is empty", () => {
     act(() => {
-      store.dispatch({ type: "SET_CART_ITEMS", payload: cartItems });
+      store.dispatch({ type: "emptyCart" });
     });
-    const quantity = screen.getByTestId("product-card");
-    expect(quantity).toBeInTheDocument();
+    const emptyCartMessage = screen.getByTestId("empty");
+    expect(emptyCartMessage).toBeInTheDocument();
+  });
+
+  test("Remove item form cart", () => {
+    act(() => {
+      store.dispatch({ type: "removeCartItem", payload: cartItems[0] });
+    });
+    const cartRemove=store.getState().userCart.length;
+    expect(cartRemove).toBe(0);
   });
 });

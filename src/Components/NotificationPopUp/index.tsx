@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { NotificationStyled } from "./NotificationStyle";
-import { notificationProps } from "./NotificationInterface";
+import { NotificationStyled } from "./notification";
+import { notificationProps } from "./notificationInterface";
 
-const Notification = ({
+const Notification=({
   title,
   message,
   type,
@@ -20,7 +20,7 @@ const Notification = ({
   }
 
   return (
-    <NotificationStyled data-testid="notify">
+    <NotificationStyled>
       <div className={classValue}>
         {showNotification && (
           <div className={notificationClass} role="alert">

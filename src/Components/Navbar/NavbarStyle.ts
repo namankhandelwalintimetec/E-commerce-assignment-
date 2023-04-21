@@ -1,22 +1,38 @@
 import styled from "styled-components";
 
 export const NavStyle = styled.nav`
-  position:sticky;
-  top:0px;
+  position: sticky;
+  top: 0px;
   display: flex;
   align-items: center;
   height: 15vh;
   box-shadow: rgba(50, 50, 93, 0.23) 0px 30px 30px -20px;
   width: 100vw;
+  background: #fff;
+  z-index: 1;
 
   .dropdown {
     display: none;
   }
-  .navbaractive{
-    background:black;
-    color:white;
+  .navbaractive {
+    background: black;
+    color: white;
+  }
+  p {
+    cursor: pointer;
+  }
+  .numberfav{
+    color:black;
+    
+  }
+  li {
+    cursor: pointer;
   }
 
+  link{
+    text-decoration: none;
+  }
+  
   .logo {
     font-size: 2em;
     margin: 1%;
@@ -73,16 +89,16 @@ export const NavStyle = styled.nav`
     scale: 1.1;
   }
 
-  .hide{
+  .hide {
     display: none;
   }
   .profile-inside:hover + .hide {
     display: block;
-    padding:2vh;
+    padding: 2vh;
     color: black;
-    position:absolute;
-    top:8vh;
-    right:5vh;
+    position: absolute;
+    top: 8vh;
+    right: 5vh;
     text-transform: capitalize;
     box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
   }

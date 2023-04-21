@@ -3,9 +3,9 @@ import OfflinePage from "./Screens/OfflineScreen";
 
 const App = () => {
   return (
-    <OfflinePage>
+    // <OfflinePage>
       <Main/>
-    </OfflinePage>
+    // </OfflinePage>
   );
 };
 

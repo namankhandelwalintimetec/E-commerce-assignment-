@@ -9,7 +9,6 @@ import { db } from "../Config/Config";
 import { getDocs, doc, getDoc } from "@firebase/firestore";
 import { propType } from "../Screens/Home/InterfaceHome";
 import { infoDataType, propType1 } from "../Components/Interfaces";
-import { OrderSummary } from "../Screens/OrderSummaryPage/Style";
 
 interface userDataType {
   cardData: [];
@@ -42,22 +41,6 @@ export const fetchWishListValue = async () => {
   return cardData.wishlist;
 };
 
-export const uplode = async (
-  item: propType[],
-  item1: infoDataType[],
-  userEmail: string
-) => {
-  try {
-    const usersub = doc(db, "Cart", userEmail);
-    await updateDoc(usersub, {
-      cardData: [...item],
-      wishlist: [...item1],
-    });
-  } catch (error) {
-    throw error;
-  }
-};
-
 export const uplodeCart = async (userCart: propType[]) => {
   try {
     const usersub = doc(db, "Cart", `${localStorage.getItem("email")}`);
@@ -83,7 +66,7 @@ export const emptyCart = async () => {
   try {
     const usersub = doc(db, "Cart", `${localStorage.getItem("email")}`);
     await updateDoc(usersub, {
-      cardData:[],
+      cardData: [],
     });
   } catch (error) {
     throw error;

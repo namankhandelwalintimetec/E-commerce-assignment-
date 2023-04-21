@@ -128,9 +128,9 @@ const Main = () => {
           <Route path="/order/placed" element={<OrderPlace />} />
           <Route path="/order/fail" element={<OrderFail />} />
           <Route path="/EmptyWishlist" element={<EmptyWishListPage />} />
-          <Route path="/EmptyCart" element={<EmptyCartPage />} />
+          <Route path="/EmptyCart" element={<EmptyCartPage />} />  
           <Route path="/orderSummary" element={<OrderSummry />} />
-          <Route path="*" element={<PageNotFound/>} />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

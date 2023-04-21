@@ -9,12 +9,37 @@ export const ProductStyle = styled.div`
   overflow: hidden;
   scroll: none;
 
+  .hide{
+    display:none;
+  }
+  .item-not{
+    width:1000vh;
+    margin-left:50vw;
+    margin-top:20vh;
+  }
+
   .product-image-style {
     width: 98%;
     height: 300px;
     display: block;
     margin-bottom: 7vh;
     margin-top:2vh;
+  }
+  .box-quantity {
+    height: 30px;
+    width: 30px;
+    border: 1px solid black;
+    background-color: rgb(235, 233, 233);
+    margin-left: 3%;
+    margin-right: 3%;
+    margin-top: -1vh;
+    border-radius: 5px;
+    align-items: center;
+    text-align: center;
+    padding: 2px;
+  }
+  .negative-button{
+    margin-left:5vh;
   }
   .green{
     background:green;

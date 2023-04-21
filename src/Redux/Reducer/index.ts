@@ -10,3 +10,4 @@ import CardValue from './CartValue';
 import Discount from "./Discount";
 const rootReducer = combineReducers({ userEmail, SerchText, setCategory, CardData, SingleProductDetail, userCart, userWishlist, CardValue, Discount });
 export default rootReducer;
+ 

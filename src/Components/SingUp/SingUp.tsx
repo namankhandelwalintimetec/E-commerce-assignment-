@@ -5,6 +5,7 @@ import { signUpPropsType } from "./InterfaceSignUp";
 const SingUp = ({
   setUserCredential,
   handelAuthentication,
+  toggle
 }: signUpPropsType) => {
   const [signUpDetail, setSignUp] = useState({
     name: "",
@@ -44,7 +45,12 @@ const SingUp = ({
     <>
       <div className="signup" data-testid="Sign Up">
         <form onSubmit={preventDefaultNature}>
-          <label htmlFor="chk" className="label" aria-hidden="true">
+          <label
+            htmlFor="chk"
+            className="label"
+            aria-hidden="true"
+            title="toggle"
+          >
             Sign up
           </label>
           {signUpInputField.map((item) => (
@@ -60,6 +66,7 @@ const SingUp = ({
           <button
             className="button"
             type="submit"
+            data-testid="signUp"
             onClick={() => {
               setUserCredential(
                 signUpDetail.name,

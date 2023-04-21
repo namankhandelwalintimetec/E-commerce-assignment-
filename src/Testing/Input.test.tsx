@@ -39,4 +39,5 @@ describe("InputField component", () => {
     fireEvent.change(input, { target: { value: "John Doe" } });
     expect(input).toBeInTheDocument();
   });
+  
 });

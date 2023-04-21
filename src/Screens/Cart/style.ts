@@ -8,6 +8,13 @@ background:#F1F3F6;
 	display:flex;
 	width:70%;
 }
+ .center-empty{
+	item-align:center;
+	text-align:center;
+	margin:auto;
+	margin-left:-10vh;
+	background:black;
+ }
 .ul{
 	display:flex;
 	gap:30vw
@@ -48,8 +55,8 @@ background:#F1F3F6;
 	color:black;
 	margin-left:-10vw;
 	margin-top:-5vh;
-	width:22vw;
-	height:53vh;
+	width:24vw;
+	height:63vh;
 	position:sticky;
 	top:8vh;
 	left:74vw;

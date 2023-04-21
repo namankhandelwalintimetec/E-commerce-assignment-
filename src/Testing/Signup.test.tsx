@@ -1,33 +1,49 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { useDispatch } from "react-redux";
+import { Provider, useDispatch } from "react-redux";
+import Login from "../Components/LogIn/Login";
+import store from "../Redux/Store";
+import { BrowserRouter, Router } from "react-router-dom";
 import SingUp from "../Components/SingUp/SingUp";
 
-jest.mock("react-redux", () => ({
-  useDispatch: jest.fn(),
-}));
-
-jest.mock("react-router-dom", () => ({
-  ...jest.requireActual("react-router-dom"),
-  useNavigate: () => jest.fn(),
-}));
-
 describe("Authentication component", () => {
-  let useDispatchMock: any;
   beforeEach(() => {
-    useDispatchMock = useDispatch as jest.Mock;
-    useDispatchMock.mockClear();
+   const setUserCredential=jest.fn();
+   const handelAuthentication=jest.fn();
+
+
+    render(
+      <Provider store={store}>
+        <BrowserRouter>
+          <SingUp
+            setUserCredential={setUserCredential}
+            handelAuthentication={handelAuthentication}
+            toggle="log in"
+          />
+        </BrowserRouter>
+      </Provider>
+    );
   });
-  const mockProps = {
-    toggle: "Login",
-    error: "",
-    handelAuthentication: jest.fn(),
-    setUserCredential: jest.fn(),
-  };
 
   test("renders sign up form by default", () => {
-    render(<SingUp {...mockProps} />);
     const countvalue = screen.getByTestId("Sign Up");
     expect(countvalue).toBeInTheDocument();
   });
+
+   test("calls onChange function with input value", () => {
+     const name = screen.getByTestId("name");
+     fireEvent.change(name, { target: { value: "Naman" } });
+     const input = screen.getByTestId("email");
+     fireEvent.change(input, { target: { value: "Naman@gmail.com" } });
+     const inputpass = screen.getByTestId("password");
+     fireEvent.change(inputpass, { target: { value: "123456" } });
+     const button = screen.getByTestId("signUp");
+     fireEvent.click(button);
+     expect(window.location.pathname).toBe("/");
+   });
+
+   test("renders sign up form by default", () => {
+     const toggletext = screen.getByTitle("toggle").textContent;
+     expect(toggletext).toBe("Sign up");
+   });
 });

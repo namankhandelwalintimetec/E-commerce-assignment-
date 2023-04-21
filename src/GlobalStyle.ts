@@ -14,9 +14,13 @@ export const GlobalStyle = createGlobalStyle`
     align-items:center;
     min-height:100vh;
     font-family:'Jost', sans-serif;
-    background:linear-gradient(to bottom, #422ce9, #7e78c0, #a8a8c7);  
+    background:white;  
   }
-
+  .center-empty
+  {
+    text-align:center;
+    margin:auto;
+  }
   .main{
     margin-top:-15vh;
     width: 30vw;
@@ -24,8 +28,18 @@ export const GlobalStyle = createGlobalStyle`
     overflow: scroll;
     border-radius: 10px;
     box-shadow: 5px 20px 50px #000;
-    margin-left:100px;
+    background:linear-gradient(to bottom, #222ce9, #7e76c0, #a8a8c8); 
   }
+  .checkout-div1{
+	background:black;
+	color:white;
+	border:none;
+	padding:2vh;
+	text-align:center;
+	width:20vw;
+	font-size:1.5vw;
+	margin-top:2vh;
+}
 
   .main::-webkit-scrollbar{
     display: none;

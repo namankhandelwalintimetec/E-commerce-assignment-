@@ -13,6 +13,7 @@ const OrderSummry = () => {
   const navigate = useNavigate();
   const [amount, setAmount] = useState(0);
   const [cartItemList, setCartItemList] = useState<orderSummary[]>([]);
+
   const fetchCartDatarelode = async () => {
     const cartData = await fetchCartDataValue();
     if (cartData !== undefined) {
@@ -35,7 +36,6 @@ const OrderSummry = () => {
     const orderHistory = await fetchOrderSummary();
     setCartItemList([]);
     if (orderHistory !== undefined) {
-      console.log(fetchOrderSummary());
       orderHistory.map((item) => {
         const data = item as orderSummary;
         setCartItemList((arr) => [...arr, data]);
@@ -53,7 +53,7 @@ const OrderSummry = () => {
       </div>
       {cartItemList.map((order) => (
         <>
-          <div className="summary-div">
+          <div className="summary-div" data-testid="order">
             <div className="top-div">
               <p>order</p>
               <p>Amount {order.Amount}</p>
@@ -65,7 +65,7 @@ const OrderSummry = () => {
               <div></div>
               <div className="itemscroll">
                 {order.itemArray.map((item) => (
-                  <div key={item.id}>
+                  <div key={item.id} data-testid="buy-more">
                     <p>{item.Name}</p>
                     <button
                       onClick={() => {

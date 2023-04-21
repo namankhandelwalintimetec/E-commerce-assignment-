@@ -6,7 +6,9 @@ import OrderPlace from "../Screens/OrderPlace";
 import OrderSummry from "../Screens/OrderSummaryPage";
 
 describe("CartScreen", () => {
-	const orderSummaery = [
+  const fetchOrderHistory=jest.fn();
+  fetchOrderHistory.mockReturnValueOnce(true);
+  const orderSummaery = [
     {
       Name: "Product 1",
       total: "100",
@@ -36,10 +38,8 @@ describe("CartScreen", () => {
     );
   });
 
-  test("renders the CheckOut Page component", async () => {
+  test("renders the CheckOut Page component", () => {
     const orderPlace = screen.getByTitle("order-page");
-    await waitFor(() => {
-      expect(orderPlace).toBeInTheDocument();
-    });
+    expect(orderPlace).toBeInTheDocument();
   });
 });

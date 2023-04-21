@@ -10,7 +10,6 @@ import { infoDataType, stateType } from "./InterfaceHome";
 
 const Home = () => {
   const [productDetail, setProductDetail] = useState<infoDataType[]>([]);
-  const [updateData, setUpdateData] = useState<infoDataType[]>([]);
   const SerchText: string = useSelector((state: stateType) => state.SerchText);
   const setCategory = useSelector((state: stateType) => state.setCategory);
   const dispatch = useDispatch();
@@ -45,7 +44,7 @@ const Home = () => {
 
   return (
     <>
-      <CarouselComponent data-testid="subpart" />
+      <CarouselComponent />
       <div className="product-card" data-testid="homePage">
         {productDetail.map((item: infoDataType) => {
           if (SerchText !== "" && item.Name && item.Name.includes(SerchText)) {
@@ -68,15 +67,17 @@ const Home = () => {
             SerchText === ""
           ) {
             return (
-              <ProductCard
-                id={item.id}
-                Name={item.Name}
-                price={item.price}
-                cate={item.cate}
-                image={item.image}
-                rating={item.rating}
-                dec={item.dec}
-              />
+              <div data-testid="con">
+                <ProductCard
+                  id={item.id}
+                  Name={item.Name}
+                  price={item.price}
+                  cate={item.cate}
+                  image={item.image}
+                  rating={item.rating}
+                  dec={item.dec}
+                />
+              </div>
             );
           }
           if (setCategory === "" && SerchText === "") {
@@ -94,7 +95,7 @@ const Home = () => {
           }
         })}
       </div>
-      <Footerpage />
+      <Footerpage/>
     </>
   );
 };

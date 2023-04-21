@@ -186,6 +186,11 @@ export const ProductCardStyle = styled.div`
     color: orangered;
   }
 
+  .pointer
+  {
+    cursor: pointer;
+  }
+
   @media screen and (max-width: 667px) {
     .card-product {
       background-color: rgb(218, 231, 227);

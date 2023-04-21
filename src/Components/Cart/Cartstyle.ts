@@ -28,6 +28,7 @@ export const Cartstyle = styled.div`
     border: none;
     color: black;
     font-weight: 700;
+    cursor: pointer;
   }
   .middle-div {
     color: black;
@@ -138,6 +139,10 @@ export const Cartstyle = styled.div`
     }
     .quantity {
       margin-left: -1vw;
+    }
+    .remove-but{
+      cursor: pointer;
+      color:white;
     }
     .sub-total {
       width: 15vw;

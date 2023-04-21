@@ -67,7 +67,8 @@ const ProductCard = ({
     setComment(Math.floor(Math.random() * 100));
     checkItemInCart();
     checkItemInWishList();
-  }, []);
+  },[]);
+
   const showPopUp = (
     title: string,
     message: string,
@@ -151,7 +152,7 @@ const ProductCard = ({
         <div className="card-product">
           {favourit && (
             <span
-              className="material-symbols-outlined favicon"
+              className="material-symbols-outlined favicon pointer"
               onClick={() => {
                 addTOWishList();
               }}
@@ -161,26 +162,29 @@ const ProductCard = ({
           )}
           {!favourit && (
             <img
-              className="favicon"
+              className="favicon pointer"
               src={FavoriteIcon}
               onClick={removeToWishList}
+              data-testid="favorite"
             />
           )}
           {cartStatus && (
             <span
-              className="material-symbols-outlined favicon-cart"
+              className="material-symbols-outlined favicon-cart pointer"
               onClick={addTOCart}
             >
               shopping_cart
             </span>
           )}
-          {!cartStatus && (
-            <img
-              className="favicon-cart-image"
-              src={cart}
-              onClick={removeToCart}
-            />
-          )}
+          <div data-testid="removeCartIcon">
+            {!cartStatus && (
+              <img
+                className="favicon-cart-image pointer"
+                src={cart}
+                onClick={removeToCart}
+              />
+            )}
+          </div>
           <img
             src={image}
             className="card-image"
@@ -193,7 +197,7 @@ const ProductCard = ({
             <p className="align-rating">{comment}K</p>
           </div>
           <div className="div-content">
-            <b className="align strong">{Name}</b>
+            <b className="align strong" data-testid="name">{Name}</b>
             <p className="align">Best deals here--</p>
             <div className="flex-box">
               <p className="align">Rs.{price}</p>
@@ -203,13 +207,14 @@ const ProductCard = ({
           </div>
           <div className="card-button-div">Trending...</div>
         </div>
-        <Notification
-          title={popUpNotification.title}
-          message={popUpNotification.message}
-          type={popUpNotification.type}
-          classValue={popUpNotification.class}
-          data-testid="notify"
-        />
+        <div data-testid="Add">
+          <Notification
+            title={popUpNotification.title}
+            message={popUpNotification.message}
+            type={popUpNotification.type}
+            classValue={popUpNotification.class}
+          />
+        </div>
       </ProductCardStyle>
     </>
   );

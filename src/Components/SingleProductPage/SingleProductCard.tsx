@@ -1,5 +1,7 @@
 import { ProductStyle } from "../../Screens/ProductPage/ProductPageStyle";
 import { useSelector } from "react-redux";
+import { GrFormSubtract } from "react-icons/gr";
+import { GrFormAdd } from "react-icons/gr";
 import { useParams } from "react-router-dom";
 import {
   infoDataType,
@@ -50,7 +52,7 @@ const SingleProductCard = ({
     const index = userWishlist.findIndex(
       (product) => product.id === String(Number(id))
     );
-    if (index === -1) {
+    if (index !== -1) {
       setAddWishList(true);
     }
   };
@@ -97,12 +99,12 @@ const SingleProductCard = ({
     React.MouseEventHandler<HTMLButtonElement>
   >(() => {
     if (localStorage.getItem("email") != null) {
-      const qua = "1";
+      let qua = '1';
       let id = productdata[Number(idValue)].id;
       const cate = productdata[Number(id)].cate;
       const desc = productdata[Number(id)].desc;
       dispatch(
-        setUserCart({ id, Name, image, rating, desc, price, qua, cate })
+        setUserCart({ id, Name, image, rating, desc, price, qua , cate })
       );
       dispatch(increseCartValue(cartValue + Number(price)));
       showPopUp("success", "Added to Card", "success", "show");
@@ -127,12 +129,11 @@ const SingleProductCard = ({
       showPopUp("warning", "First Log in", "warning", "show");
     }
   }, [dispatch, id, productdata, userdata, userCart]);
-
   return (
     <>
       <ProductStyle>
-        <div className="flex-style">
-          <Carousel className="product-image-style">
+        <div className="flex-style" data-testid="singlepage">
+          <Carousel className="product-image-style" data-testid="slider">
             <Carousel.Item>
               <img
                 className="product-image-style"
@@ -154,7 +155,7 @@ const SingleProductCard = ({
           >
             Buy now
           </button>
-          {addWishList && (
+          {!addWishList && (
             <button
               className="wishlist-button"
               onClick={saveInWishlist}
@@ -163,8 +164,8 @@ const SingleProductCard = ({
               Wishlist
             </button>
           )}
-          {!addWishList && (
-            <button className="wishlist-button green">Added</button>
+          {addWishList && (
+            <button className="wishlist-button green">Wishlisted</button>
           )}
           <Notification
             title={popUpNotification.title}
@@ -224,7 +225,7 @@ const SingleProductCard = ({
           </div>
           <div className="description-div">
             <p>Description-</p>
-            <span>{desc}</span>
+            <p>Description for this item</p>
           </div>
         </div>
       </ProductStyle>
